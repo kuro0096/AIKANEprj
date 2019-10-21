@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+/test/MyGame/cocos2d
+/test/MyGame/proj.win32/.vs
+/test/MyGame/proj.win32/Debug.win32/libcocos2d.pdb
+/test/MyGame/proj.win32
