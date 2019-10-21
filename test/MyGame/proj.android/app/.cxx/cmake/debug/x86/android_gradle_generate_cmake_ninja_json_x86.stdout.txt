@@ -1,0 +1,12 @@
+-- using toolchain file:D:\AndroidNDK\20\build\cmake\android.toolchain.cmake
+-- PROJECT_NAME:MyGame
+-- PROJECT_SOURCE_DIR:D:/test/MyGame
+-- COCOS2DX_ROOT_PATH:D:/test/MyGame/cocos2d
+-- CMAKE_MODULE_PATH:D:/test/MyGame/cocos2d/cmake/Modules/
+-- PROJECT_BINARY_DIR:D:/test/MyGame/proj.android/app/.cxx/cmake/debug/x86
+-- ENGINE_BINARY_PATH:D:/test/MyGame/proj.android/app/.cxx/cmake/debug/x86/engine
+-- CMAKE_GENERATOR: Ninja
+-- CMAKE_BUILD_TYPE: Debug
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/test/MyGame/proj.android/app/.cxx/cmake/debug/x86
