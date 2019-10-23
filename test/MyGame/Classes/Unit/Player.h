@@ -27,6 +27,9 @@ private:
 	bool m_runFlag;
 	bool m_runFlagL;
 
+	Vec2 m_bust;
+	Vec2 m_leg;
+
 	CREATE_FUNC(Player);
 };
 

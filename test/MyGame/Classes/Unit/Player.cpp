@@ -1,6 +1,9 @@
+#include <algorithm>
 #include "Player.h"
+#include "_Debug/_DebugConOut.h"
 #include "input/inputKey.h"
 #include "input/inputTouch.h"
+#include "common//CollisionCheck.h"
 
 Player * Player::createPlayer()
 {
@@ -16,6 +19,9 @@ Player::Player()
 
 	m_runFlag = false;
 	m_runFlagL = false;
+
+	m_bust = { 30 , 35 };
+	m_leg = { 10 , 65 };
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	m_input = new(inputKey);
@@ -34,55 +40,55 @@ Player::~Player()
 
 void Player::update(float dt)
 {
-	auto director = Director::getInstance();
-	auto map = (TMXTiledMap*)director->getRunningScene()->getChildByName("BG_BACK")->getChildByName("map");
-
-	auto data = map->getLayer("stage");
-
-	auto vec = this->getPosition() / data->getMapTileSize().width; // posに移動量とオフセットを足す
-	vec.y = director->getVisibleSize().height - vec.y;
-	auto x = this->getPositionX() / data->getMapTileSize().width;
-	auto y = (director->getVisibleSize().height - (this->getPositionY() - 73)) / data->getMapTileSize().height;
+	CollisionCheck collision = CollisionCheck();
 
 	// 移動処理
-	if (x < data->getLayerSize().width && x > 0)
+	// 向いてる方向によって処理を変える
+	if (m_input->GetDir(static_cast<size_t>(DIR::LEFT)) == true)
 	{
-		if ((data->getTileGIDAt(Vec2(x, y - 1)) * data->getMapTileSize().width < this->getPositionX()))
+		// 左上と左下の情報をCollisionCheckに渡す
+		if (collision(this,Vec2(- m_bust.x, m_bust.y), Vec2(- m_leg.x, - m_leg.y),Vec2(-3,0)))
 		{
-			if (m_input->GetDir(static_cast<size_t>(DIR::LEFT)) == true)
-			{
-				this->setPositionX(this->getPositionX() - 3);
-			}
+			this->setPositionX(this->getPositionX() - 3);
 		}
-		/*if ((data->getTileGIDAt(Vec2(x, y - 1)) * data->getMapTileSize().width > this->getPositionX()))
-		{
-			if (m_input->GetDir(static_cast<size_t>(DIR::RIGHT)) == true)
-			{
-				this->setPositionX(this->getPositionX() + 3);
-			}
-		}*/
 	}
-	if (y > 0 && y < data->getLayerSize().height)
+	if (m_input->GetDir(static_cast<size_t>(DIR::RIGHT)) == true)
 	{
-		if (data->getTileGIDAt(Vec2(x, y)) == 0 && m_input->GetDir(static_cast<size_t>(DIR::UP)) != true)
+		// 右上と右下の情報をCollisionCheckに渡す
+		if (collision(this, Vec2(m_bust.x, m_bust.y), Vec2(m_leg.x, -m_leg.y), Vec2(-3, 0)))
+		{
+			this->setPositionX(this->getPositionX() + 3);
+		}
+	}
+	if (m_input->GetDir(static_cast<size_t>(DIR::UP)) == true)
+	{
+		// 左上と右上の情報をCollisionCheckに渡す
+		if (collision(this, Vec2(-m_leg.x, m_bust.y), Vec2(m_leg.x, m_bust.y), Vec2(0, -3)))
+		{
+			this->setPositionY(this->getPositionY() + 3);
+		}
+	}
+	if (m_input->GetDir(static_cast<size_t>(DIR::DOWN)) == true)
+	{
+		// 左下と右下の情報をCollisionCheckに渡す
+		if (collision(this, Vec2(-m_leg.x, -m_leg.y), Vec2(m_leg.x, -m_leg.y), Vec2(0, -3)))
 		{
 			this->setPositionY(this->getPositionY() - 3);
 		}
 	}
-	
-	if (m_input->GetDir(static_cast<size_t>(DIR::RIGHT)) == true)
-	{
-		this->setPositionX(this->getPositionX() + 3);
-	}
-	if (m_input->GetDir(static_cast<size_t>(DIR::UP)) == true)
-	{
-		this->setPositionY(this->getPositionY() + 3);
-	}
-
 	if (m_input->GetDir(static_cast<size_t>(DIR::RIGHT)) == true
 		&& m_input->GetDir(static_cast<size_t>(DIR::LEFT)) == true)
 	{
 		return;
+	}
+
+	if (this->getPositionX() - m_bust.x <= 0)
+	{
+		this->setPositionX(0 + m_bust.x);
+	}
+	if (this->getPositionY() - m_leg.y  <= 0)
+	{
+		this->setPositionY(0 + m_leg.y);
 	}
 
 	if (!m_runFlag && m_input->GetDir(static_cast<size_t>(DIR::RIGHT)) == true)
