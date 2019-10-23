@@ -29,6 +29,7 @@ private:
 
 	Vec2 m_bust;
 	Vec2 m_leg;
+	Vec2 m_speed;
 
 	CREATE_FUNC(Player);
 };

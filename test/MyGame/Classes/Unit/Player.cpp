@@ -22,6 +22,7 @@ Player::Player()
 
 	m_bust = { 30 , 35 };
 	m_leg = { 10 , 65 };
+	m_speed = { 3,3 };
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	m_input = new(inputKey);
@@ -46,49 +47,54 @@ void Player::update(float dt)
 	// Œü‚¢‚Ä‚é•ûŒü‚É‚æ‚Á‚Äˆ—‚ð•Ï‚¦‚é
 	if (m_input->GetDir(static_cast<size_t>(DIR::LEFT)) == true)
 	{
-		// ¶ã‚Æ¶‰º‚Ìî•ñ‚ðCollisionCheck‚É“n‚·
-		if (collision(this,Vec2(- m_bust.x, m_bust.y), Vec2(- m_leg.x, - m_leg.y),Vec2(-3,0)))
+		if (this->getPositionX() - m_bust.x - m_speed.x <= 0)
 		{
-			this->setPositionX(this->getPositionX() - 3);
+			this->setPositionX(0 + m_bust.x + -m_speed.x);
+		}
+		else
+		{
+			// ¶ã‚Æ¶‰º‚Ìî•ñ‚ðCollisionCheck‚É“n‚·
+			if (collision(this, Vec2(-m_bust.x, m_bust.y), Vec2(-m_leg.x, -m_leg.y), Vec2(-m_speed.x, 0)))
+			{
+				this->setPositionX(this->getPositionX() - m_speed.x);
+			}
 		}
 	}
 	if (m_input->GetDir(static_cast<size_t>(DIR::RIGHT)) == true)
 	{
 		// ‰Eã‚Æ‰E‰º‚Ìî•ñ‚ðCollisionCheck‚É“n‚·
-		if (collision(this, Vec2(m_bust.x, m_bust.y), Vec2(m_leg.x, -m_leg.y), Vec2(-3, 0)))
+		if (collision(this, Vec2(m_bust.x, m_bust.y), Vec2(m_leg.x, -m_leg.y), Vec2(m_speed.x, 0)))
 		{
-			this->setPositionX(this->getPositionX() + 3);
+			this->setPositionX(this->getPositionX() + m_speed.x);
 		}
 	}
 	if (m_input->GetDir(static_cast<size_t>(DIR::UP)) == true)
 	{
 		// ¶ã‚Æ‰Eã‚Ìî•ñ‚ðCollisionCheck‚É“n‚·
-		if (collision(this, Vec2(-m_leg.x, m_bust.y), Vec2(m_leg.x, m_bust.y), Vec2(0, -3)))
+		if (collision(this, Vec2(-m_leg.x, m_bust.y), Vec2(m_leg.x, m_bust.y), Vec2(0, m_speed.y)))
 		{
-			this->setPositionY(this->getPositionY() + 3);
+			this->setPositionY(this->getPositionY() + m_speed.y);
 		}
 	}
 	if (m_input->GetDir(static_cast<size_t>(DIR::DOWN)) == true)
 	{
-		// ¶‰º‚Æ‰E‰º‚Ìî•ñ‚ðCollisionCheck‚É“n‚·
-		if (collision(this, Vec2(-m_leg.x, -m_leg.y), Vec2(m_leg.x, -m_leg.y), Vec2(0, -3)))
+		if (this->getPositionY() - m_leg.y - m_speed.y <= 0)
 		{
-			this->setPositionY(this->getPositionY() - 3);
+			this->setPositionY(0 + m_leg.y + m_speed.y);
+		}
+		else
+		{
+			// ¶‰º‚Æ‰E‰º‚Ìî•ñ‚ðCollisionCheck‚É“n‚·
+			if (collision(this, Vec2(-m_leg.x, -m_leg.y), Vec2(m_leg.x, -m_leg.y), Vec2(0, -m_speed.y)))
+			{
+				this->setPositionY(this->getPositionY() - m_speed.y);
+			}
 		}
 	}
 	if (m_input->GetDir(static_cast<size_t>(DIR::RIGHT)) == true
 		&& m_input->GetDir(static_cast<size_t>(DIR::LEFT)) == true)
 	{
 		return;
-	}
-
-	if (this->getPositionX() - m_bust.x <= 0)
-	{
-		this->setPositionX(0 + m_bust.x);
-	}
-	if (this->getPositionY() - m_leg.y  <= 0)
-	{
-		this->setPositionY(0 + m_leg.y);
 	}
 
 	if (!m_runFlag && m_input->GetDir(static_cast<size_t>(DIR::RIGHT)) == true)
