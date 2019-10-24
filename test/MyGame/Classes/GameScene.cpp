@@ -44,6 +44,7 @@ static void problemLoading(const char* filename)
 }
 
 // on "init" you need to initialize your instance
+// 初期化関数
 bool GameScene::init()
 {
 	//////////////////////////////
@@ -84,33 +85,15 @@ bool GameScene::init()
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu,static_cast<int>(Z_ORDER::MAX));
 	
-	/////////////////////////////
-	// 3. add your codes below...
-
-	// add a label shows "Hello World"
-	// create and initialize a label
-
-	//auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-	//if (label == nullptr)
-	//{
-	//	problemLoading("'fonts/Marker Felt.ttf'");
-	//}
-	//else
-	//{
-	//	// position the label on the center of the screen
-	//	label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-	//		origin.y + visibleSize.height - label->getContentSize().height));
-
-	//	// add the label as a child to this layer
-	//	this->addChild(label, 1);
-	//}
-
+	// GameSceneの子としてﾚｲﾔｰを作りそこにspriteを子として関連付ける
+	// 背景後ろ部分
 	auto bg_Back = Layer::create();
 	bg_Back->setName("BG_BACK");
 	auto back = Sprite::create("image/Environment/background.png");
 	back->setAnchorPoint(Vec2(0, 0));
 	bg_Back->addChild(back,0);
 
+	// ﾏｯﾌﾟと前に表示される水
 	auto map = TMXTiledMap::create("map/test.tmx");
 	map->setName("map");
 	auto water = map->getLayer("water");
@@ -118,11 +101,13 @@ bool GameScene::init()
 	this->addChild(bg_Back,static_cast<int>(Z_ORDER::BG_BACK));
 	water->setGlobalZOrder(static_cast<int>(Z_ORDER::BG_FRONT));
 
+	// ｷｬﾗｸﾀｰ
 	auto CharLayer = Layer::create();
 	auto player = Player::createPlayer();
 	CharLayer->addChild(player,0);
 	this->addChild(CharLayer, static_cast<int>(Z_ORDER::CHAR));
 
+	// 背景の前部分(仮)
 	auto bg_Front = Layer::create();
 	bg_Front->setName("BG_FRONT");
 	this->addChild(bg_Front, static_cast<int>(Z_ORDER::BG_FRONT));
@@ -149,8 +134,8 @@ void GameScene::menuCloseCallback(Ref* pSender)
 	//_eventDispatcher->dispatchEvent(&customEndEvent);
 }
 
+// 情報更新
 void GameScene::update(float dt)
 {
-
 }
 

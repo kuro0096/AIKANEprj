@@ -19,17 +19,17 @@ enum class DIR	// Œü‚¢‚Ä‚¢‚é•ûŒü
 	MAX
 };
 
-enum class COMAND
-{
-	JUMP,
-	SHOT,
-	MAX
-};
-
 enum class INPUT_STATE // “ü—Íó‘Ô
 {
 	NOW,	// Œ»İ
 	OLD,	// ‘O‚Ìó‘Ô
+	MAX
+};
+
+enum class COMAND
+{
+	JUMP,
+	SHOT,
 	MAX
 };
 
@@ -45,5 +45,5 @@ struct input : public cocos2d::Node
 	}
 protected:
 	INPUT_STATE m_state;		// “ü—Íó‘Ô
-	bool m_dirFlag[static_cast<size_t>(DIR::MAX)];
+	bool m_dirFlag[static_cast<size_t>(DIR::MAX)];	// •ûŒü–ˆ‚Ì“ü—Íî•ñ
 };

@@ -5,31 +5,25 @@
 
 USING_NS_CC;
 
-enum HALF
-{
-
-};
-
 class Player : public cocos2d::Sprite
 {
 public:
-	static Player* createPlayer();
+	static Player* createPlayer();	
 	Player();
 	~Player();
-	void update(float dt);
-	Action* GetAnim(const char* str,bool repeat);
+	void update(float dt);							// 情報更新
 private:
-	bool Init();
+	bool Init();					// 変数やｱﾆﾒｰｼｮﾝの初期化
 
-	AnimationCache* animSave;
-	input* m_input;
+	AnimationCache* animSave;       // ｱﾆﾒｰｼｮﾝのﾃﾞｰﾀ保存用変数
+	input* m_input;					// ｷｰの入力情報
 	
-	bool m_runFlag;
-	bool m_runFlagL;
+	std::pair<bool,bool>m_runFlag;  // 走るｱﾆﾒｰｼｮﾝ用ﾌﾗｸﾞ(firstが左,secondが右)
+	bool m_jumpFlag;				// ｼﾞｬﾝﾌﾟｱﾆﾒｰｼｮﾝ用ﾌﾗｸﾞ
 
-	Vec2 m_bust;
-	Vec2 m_leg;
-	Vec2 m_speed;
+	Vec2 m_bustOffset;	// 上半身の当たり判定用ｵﾌｾｯﾄ座標
+	Vec2 m_legOffset;	// 下半身の当たり判定用ｵﾌｾｯﾄ座標
+	Vec2 m_speed;		// 移動速度
 
 	CREATE_FUNC(Player);
 };
