@@ -117,7 +117,7 @@ bool GameScene::init()
 #else
 	m_input = new(inputTouch);
 #endif
-	m_input->Init(this);
+	// m_input->Init(this);
 	return true;
 }
 

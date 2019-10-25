@@ -23,8 +23,5 @@ bool CollisionCheck::operator()(Sprite * sprite, Vec2 rect1, Vec2 rect2, Vec2 mo
 	{
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+	return false;
 }

@@ -24,8 +24,8 @@ public:
 	~AnimMng();
 private:
 	AnimMng();
-	static AnimMng* s_Instance;			// AnimMngでｲﾝｽﾀﾝｽする変数
+	static AnimMng* s_Instance;				// AnimMngでｲﾝｽﾀﾝｽする変数
 
-	cocos2d::AnimationCache* animSave;  // ｱﾆﾒｰｼｮﾝのﾃﾞｰﾀ保存用変数
-	std::string anim;					// どのｱﾆﾒｰｼｮﾝが実行されているか文字列で保存
+	cocos2d::AnimationCache* m_animSave;	// ｱﾆﾒｰｼｮﾝのﾃﾞｰﾀ保存用変数
+	std::string m_anim;						// どのｱﾆﾒｰｼｮﾝが実行されているか文字列で保存
 };
