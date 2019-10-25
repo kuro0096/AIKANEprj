@@ -1,0 +1,31 @@
+#pragma once
+#include <string>
+#include <cocos2d.h>
+
+#define lpAnimMng AnimMng::GetInstance()
+
+class AnimMng
+{
+public:
+	// 動的なｼﾝｸﾞﾙﾄﾝ
+	static AnimMng& GetInstance()
+	{
+		// 1度だけｲﾝｽﾀﾝｽ
+		if (s_Instance == nullptr)
+		{
+			s_Instance = new AnimMng();
+		}
+		return (*s_Instance);
+	}
+
+	void AnimCacheInit(const std::string unit, const std::string actAnim ,int cnt,float delay);	// ｱﾆﾒｰｼｮﾝの登録(ﾕﾆｯﾄ名,ｱｸｼｮﾝ名,ｱﾆﾒｰｼｮﾝの枚数,ｱﾆﾒｰｼｮﾝの間隔)
+	bool ActAnim(cocos2d::Sprite* sprite,const char* str, bool repeat);							// 保存したｱﾆﾒｰｼｮﾝをrunActionする(spriteの情報,保存した名前,repeatするか)
+	
+	~AnimMng();
+private:
+	AnimMng();
+	static AnimMng* s_Instance;			// AnimMngでｲﾝｽﾀﾝｽする変数
+
+	cocos2d::AnimationCache* animSave;  // ｱﾆﾒｰｼｮﾝのﾃﾞｰﾀ保存用変数
+	std::string anim;					// どのｱﾆﾒｰｼｮﾝが実行されているか文字列で保存
+};
