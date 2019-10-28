@@ -134,7 +134,8 @@ void Player::update(float dt)
 		m_runFlag.first = false;
 	}
 	// ‰E“ü—Í‚³‚ê‚½ó‘Ô‚Ì±ÆÒ°¼®Ý
-	if (m_runFlag.second){
+	if (m_runFlag.second)
+	{
 		lpAnimMng.ActAnim(this, "run", true);
 		this->runAction(FlipX::create(false));
 	}
