@@ -120,6 +120,14 @@ void Player::update(float dt)
 		return;
 	}
 
+	/*auto MoveLR = [](Sprite& sprite)
+	{
+		if (((Player&)sprite).)
+		{
+			return false;
+		}
+	};*/
+
 	// ¶“ü—Í‚³‚ê‚½ó‘Ô‚Ì±ÆÒ°¼®İ
 	if (m_runFlag.first)
 	{

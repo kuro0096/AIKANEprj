@@ -19,8 +19,10 @@ enum class DIR			// Œü‚¢‚Ä‚¢‚é•ûŒü
 
 enum class INPUT_STATE	// “ü—Íó‘Ô
 {
-	NOW,	// Œ»İ
-	OLD,	// ‘O‚Ìó‘Ô
+	ON,			// ‰Ÿ‚³‚ê‚Ä‚¢‚é
+	ON_MON,		// ‰Ÿ‚³‚ê‚½uŠÔ
+	OFF,		// —£‚³‚ê‚Ä‚¢‚é
+	OFF_MON,	// —£‚³‚ê‚½uŠÔ
 	MAX
 };
 
@@ -41,7 +43,11 @@ struct input : public cocos2d::Node
 	const bool GetDir(const size_t& n) {
 		return m_dirFlag[n];	// •ûŒüÌ×¸Ş‚Ìó‘Ô‚ğÁ‚·
 	}
+	const DIR GetDir(){
+		return m_dir;
+	}
 protected:
 	INPUT_STATE m_inputState;						// “ü—Íó‘Ô
 	bool m_dirFlag[static_cast<size_t>(DIR::MAX)];	// •ûŒü–ˆ‚Ì“ü—Íî•ñ
+	DIR m_dir;
 };

@@ -10,18 +10,22 @@ void inputKey::Init(Node * node)
 		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW)
 		{
 			m_dirFlag[static_cast<size_t>(DIR::LEFT)] = true;
+			m_dir = DIR::LEFT;
 		}
 		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW)
 		{
 			m_dirFlag[static_cast<size_t>(DIR::RIGHT)] = true;
+			m_dir = DIR::RIGHT;
 		}
 		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW)
 		{
 			m_dirFlag[static_cast<size_t>(DIR::DOWN)] = true;
+			m_dir = DIR::DOWN;
 		}
 		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW)
 		{
 			m_dirFlag[static_cast<size_t>(DIR::UP)] = true;
+			m_dir = DIR::UP;
 		}
 		return true;
 	};
