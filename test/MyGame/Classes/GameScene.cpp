@@ -52,6 +52,9 @@ bool GameScene::init()
 	{
 		return false;
 	}
+
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	
 	/////////////////////////////
 	// 2. add a menu item with "X" image, which is clicked to quit the program
@@ -71,8 +74,6 @@ bool GameScene::init()
 	}
 	else
 	{
-		Size visibleSize = Director::getInstance()->getVisibleSize();
-		Vec2 origin = Director::getInstance()->getVisibleOrigin();
 		float x = origin.x + visibleSize.width - closeItem->getContentSize().width / 2;
 		float y = origin.y + closeItem->getContentSize().height / 2;
 		closeItem->setPosition(Vec2(x, y));
@@ -88,8 +89,18 @@ bool GameScene::init()
 	auto bg_Back = Layer::create();
 	bg_Back->setName("BG_BACK");
 	auto backG = Sprite::create("image/Environment/background.png");
+	auto backG2 = Sprite::create("image/Environment/background.png");
 	backG->setAnchorPoint(Vec2(0, 0));
+	backG2->setAnchorPoint(Vec2(0, 0));
+	backG2->setPosition(Vec2::ZERO + Vec2(720,0));
+
+	// ’†ŠÔ‚Ì‰æ‘œ	
+	auto backF = Sprite::create("image/Environment/middleground.png");
+	backF->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+
 	bg_Back->addChild(backG,0);
+	bg_Back->addChild(backG2,0);
+	bg_Back->addChild(backF, 0);
 
 	// Ï¯Ìß‚Æ‘O‚É•\¦‚³‚ê‚é…
 	auto map = TMXTiledMap::create("map/test.tmx");

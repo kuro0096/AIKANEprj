@@ -6,7 +6,6 @@
 
 using LamudaAct = bool(*)(cocos2d::Sprite& sprite);
 
-
 class Player : public cocos2d::Sprite
 {
 public:
@@ -21,9 +20,7 @@ private:
 
 	input* m_input;							// ｷｰの入力情報
 	
-	
-	std::pair<bool,bool>m_runFlag;			// 走るｱﾆﾒｰｼｮﾝ用ﾌﾗｸﾞ<firstが左,secondが右>
-	bool m_jumpFlag;						// ｼﾞｬﾝﾌﾟｱﾆﾒｰｼｮﾝ用ﾌﾗｸﾞ
+	bool m_jumpFlag;						// ｼﾞｬﾝﾌﾟ用ﾌﾗｸﾞ
 
 	cocos2d::Vec2 m_bustOffset;				// 上半身の当たり判定用ｵﾌｾｯﾄ座標
 	cocos2d::Vec2 m_legOffset;				// 下半身の当たり判定用ｵﾌｾｯﾄ座標

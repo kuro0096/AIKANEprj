@@ -38,11 +38,10 @@ Player::~Player()
 bool Player::Init()
 {
 	// •Ï”‰Šú‰»
-	m_runFlag = { false,false };
 	m_jumpFlag = false;
 
-	m_bustOffset = { 30 , 35 };
-	m_legOffset = { 10 , 65 };
+	m_bustOffset = { 24 , 35 };
+	m_legOffset = { 24 , 65 };
 	m_speed = { 3,3 };
 
 	// ±ÆÒ°¼®Ý‚Ì“o˜^
@@ -68,7 +67,6 @@ void Player::update(float dt)
 	// ¶
 	if (m_input->GetDir(static_cast<size_t>(DIR::LEFT)) == true)
 	{
-		m_runFlag.first = true;
 		// ˆÚ“®§ŒÀ
 		if (this->getPositionX() - m_bustOffset.x - m_speed.x <= 0)
 		{
@@ -83,25 +81,10 @@ void Player::update(float dt)
 	// ‰E
 	if (m_input->GetDir(static_cast<size_t>(DIR::RIGHT)) == true)
 	{
-		m_runFlag.second = true;
 		// ‰Eã‚Æ‰E‰º‚Ìî•ñ‚ðCollisionCheck‚É“n‚·
 		if (!collision(this, Vec2(m_bustOffset.x, m_bustOffset.y), Vec2(m_legOffset.x, -m_legOffset.y), Vec2(m_speed.x, 0)))
 		{
 			this->setPositionX(this->getPositionX() + m_speed.x);
-		}
-	}
-	// ‰º
-	if (m_input->GetDir(static_cast<size_t>(DIR::DOWN)) == true)
-	{
-		// ˆÚ“®§ŒÀ
-		if (this->getPositionY() - m_legOffset.y - m_speed.y <= 0)
-		{
-			this->setPositionY(0 + m_legOffset.y + m_speed.y);
-		}
-		// ¶‰º‚Æ‰E‰º‚Ìî•ñ‚ðCollisionCheck‚É“n‚·
-		else if (!collision(this, Vec2(-m_legOffset.x, -m_legOffset.y), Vec2(m_legOffset.x, -m_legOffset.y), Vec2(0, -m_speed.y)))
-		{
-			this->setPositionY(this->getPositionY() - m_speed.y);
 		}
 	}
 	// ã
@@ -113,45 +96,35 @@ void Player::update(float dt)
 			this->setPositionY(this->getPositionY() + m_speed.y);
 		}
 	}
-	// ‰E‚Æ¶‚ª“¯Žž‚É‰Ÿ‚³‚ê‚Ä‚¢‚½‚ç“®‚©‚È‚¢
-	if (m_input->GetDir(static_cast<size_t>(DIR::RIGHT)) == true
-		&& m_input->GetDir(static_cast<size_t>(DIR::LEFT)) == true)
+	// d—Í
+	// ˆÚ“®§ŒÀ
+	if (this->getPositionY() - m_legOffset.y - m_speed.y <= 0)
 	{
-		return;
+		this->setPositionY(0 + m_legOffset.y + m_speed.y);
+	}
+	// ¶‰º‚Æ‰E‰º‚Ìî•ñ‚ðCollisionCheck‚É“n‚·
+	else if (!collision(this, Vec2(-m_legOffset.x, -m_legOffset.y), Vec2(m_legOffset.x, -m_legOffset.y), Vec2(0, -1)))
+	{
+		this->setPositionY(this->getPositionY() - 1);
 	}
 
-	/*auto MoveLR = [](Sprite& sprite)
+	auto animRun = [&](DIR state1,DIR state2,bool reverse)
 	{
-		if (((Player&)sprite).)
+		if ((m_input->GetState(state1) == INPUT_STATE::ON_MON)
+		|| (m_input->GetState(state1) == INPUT_STATE::ON) && (m_input->GetState(state2) == INPUT_STATE::OFF_MON))
 		{
-			return false;
+			lpAnimMng.ActAnim(this, "run", true);
+			this->runAction(FlipX::create(reverse));
 		}
-	};*/
+		if (m_input->GetState(state1) == INPUT_STATE::OFF_MON && m_input->GetState(state2) == INPUT_STATE::OFF)
+		{
+			lpAnimMng.ActAnim(this, "idle", true);
+			this->runAction(FlipX::create(reverse));
+		}
+	};
 
-	// ¶“ü—Í‚³‚ê‚½ó‘Ô‚Ì±ÆÒ°¼®Ý
-	if (m_runFlag.first)
-	{
-		lpAnimMng.ActAnim(this, "run", true);
-		this->runAction(FlipX::create(true));
-	}
-	// ¶“ü—Í‚³‚ê‚½ó‘Ô‚©‚ç“ü—Í‚ª‚È‚­‚È‚Á‚½Žž‚Ì±ÆÒ°¼®Ý
-	if (m_runFlag.first && m_input->GetDir(static_cast<size_t>(DIR::LEFT)) == false)
-	{
-		lpAnimMng.ActAnim(this, "idle", true);
-		this->runAction(FlipX::create(true));
-		m_runFlag.first = false;
-	}
-	// ‰E“ü—Í‚³‚ê‚½ó‘Ô‚Ì±ÆÒ°¼®Ý
-	if (m_runFlag.second)
-	{
-		lpAnimMng.ActAnim(this, "run", true);
-		this->runAction(FlipX::create(false));
-	}
-	// ‰E“ü—Í‚³‚ê‚½ó‘Ô‚©‚ç“ü—Í‚ª‚È‚­‚È‚Á‚½Žž‚Ì±ÆÒ°¼®Ý
-	if (m_runFlag.second && m_input->GetDir(static_cast<size_t>(DIR::RIGHT)) == false)
-	{
-		lpAnimMng.ActAnim(this, "idle", true);
-		this->runAction(FlipX::create(false));
-		m_runFlag.second = false;
-	}
+	animRun(DIR::LEFT,DIR::RIGHT,true);
+	animRun(DIR::RIGHT,DIR::LEFT,false);
+
+	m_input->update();
 }
