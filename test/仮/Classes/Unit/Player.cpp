@@ -1,7 +1,7 @@
+#pragma execution_character_set("utf-8")
 #include "Player.h"
 #include "_Debug/_DebugConOut.h"
 #include "common/AnimMng.h"
-#include "common/ActionMng.h"
 #include "input/inputKey.h"
 #include "input/inputTouch.h"
 
@@ -54,11 +54,11 @@ bool Player::Init()
 	m_speed[static_cast<size_t>(DIR::UP)] = { 0 , playerSpeed };
 	m_speed[static_cast<size_t>(DIR::DOWN)] = { 0 ,-playerSpeed };
 
-	ActionMng* action = new(ActionMng);
+	m_action = new(ActionMng);
 
 	ActData data;
 	data.dir = DIR::LEFT;
-	action->AddAct("¶ˆÚ“®", data);
+	m_action->AddAct("¶ˆÚ“®", data);
 
 	// ±ÆÒ°¼®Ý‚Ì“o˜^
 	lpAnimMng.AnimCacheInit("player", "idle", 4, 0.3f);
@@ -76,7 +76,6 @@ bool Player::Init()
 // î•ñXV
 void Player::update(float dt)
 {
-	ActionMng* action = new(ActionMng);
 	// Œ»ÝÀ•W
 	Vec2 pos = this->getPosition();
 	// ˆÚ“®ˆ—
@@ -85,7 +84,7 @@ void Player::update(float dt)
 		// Œü‚¢‚Ä‚é•ûŒü‚É‚æ‚Á‚Ä“n‚·’l‚ð•Ï‚¦‚é
 		if (m_input->GetDir(static_cast<size_t>(dir)) == true)
 		{
-			auto addPos = action->moveCtrl(pos,m_offset[dir].first,m_offset[dir].second,m_speed[static_cast<size_t>(dir)]);
+			auto addPos = m_action->moveCtrl(pos,m_offset[dir].first,m_offset[dir].second,m_speed[static_cast<size_t>(dir)]);
 			this->setPosition(addPos);
 		}
 	}

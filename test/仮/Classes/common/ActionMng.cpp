@@ -1,3 +1,4 @@
+#pragma execution_character_set("utf-8")
 #include "ActionMng.h"
 
 Vec2 visibleSize = Director::getInstance()->getVisibleSize();
@@ -52,7 +53,7 @@ Vec2 ActionMng::moveCtrl(Vec2 pos, Vec2 offset1, Vec2 offset2,Vec2 speed)
 	return pos;
 }
 
-void ActionMng::AddAct(std::string actName, ActData data)
+void ActionMng::AddAct(const std::string& actName, const ActData& data)
 {
-	
+	m_act[actName] = data;
 }

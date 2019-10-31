@@ -22,6 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+#pragma execution_character_set("utf-8")
+
 #include <string>
 #include "GameScene.h"
 #include "SimpleAudioEngine.h"
