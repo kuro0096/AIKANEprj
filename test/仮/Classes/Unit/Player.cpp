@@ -54,6 +54,12 @@ bool Player::Init()
 	m_speed[static_cast<size_t>(DIR::UP)] = { 0 , playerSpeed };
 	m_speed[static_cast<size_t>(DIR::DOWN)] = { 0 ,-playerSpeed };
 
+	ActionMng* action = new(ActionMng);
+
+	ActData data;
+	data.dir = DIR::LEFT;
+	action->AddAct("¶ˆÚ“®", data);
+
 	// ±ÆÒ°¼®İ‚Ì“o˜^
 	lpAnimMng.AnimCacheInit("player", "idle", 4, 0.3f);
 	lpAnimMng.AnimCacheInit("player", "run", 10, 0.1f);

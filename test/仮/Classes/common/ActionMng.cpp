@@ -13,6 +13,7 @@ ActionMng::~ActionMng()
 // 当たり判定用関数(spriteの座標,1つ目のｵﾌｾｯﾄ座標,2つ目のｵﾌｾｯﾄ座標)
 bool ActionMng::CollisionCheck(Vec2 pos, Vec2 offsetSpot1, Vec2 offsetSpot2)
 {
+	m_act["左移動"];
 	// ﾚｲﾔｰの情報を取得
 	auto director = Director::getInstance();
 	auto map = (TMXTiledMap*)director->getRunningScene()->getChildByName("BG_BACK")->getChildByName("map");
@@ -51,6 +52,7 @@ Vec2 ActionMng::moveCtrl(Vec2 pos, Vec2 offset1, Vec2 offset2,Vec2 speed)
 	return pos;
 }
 
-void ActionMng::AddAct(String actName, ActData data)
+void ActionMng::AddAct(std::string actName, ActData data)
 {
+	
 }
