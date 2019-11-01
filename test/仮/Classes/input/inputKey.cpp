@@ -57,7 +57,7 @@ void inputKey::Init(Node * node)
 }
 
 // ·°‚Ìî•ñ‚ğXV
-void inputKey::update()
+void inputKey::PressingUpdate()
 {
 	for (auto dir : DIR())
 	{

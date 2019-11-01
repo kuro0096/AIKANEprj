@@ -66,7 +66,7 @@ bool Player::Init()
 	lpAnimMng.AnimCacheInit("player", "jump", 6, 0.1f);
 
 	// 最初は待ち状態のｱﾆﾒｰｼｮﾝ
-	lpAnimMng.ActAnim(this, "idle", true);
+	lpAnimMng.ActAnim(this,"player","idle", true);
 
 	this->scheduleUpdate();
 
@@ -76,34 +76,28 @@ bool Player::Init()
 // 情報更新
 void Player::update(float dt)
 {
-	// 現在座標
-	Vec2 pos = this->getPosition();
 	// 移動処理
 	for (auto dir : DIR())
 	{
 		// 向いてる方向によって渡す値を変える
 		if (m_input->GetDir(static_cast<size_t>(dir)) == true)
 		{
-			auto addPos = m_action->moveCtrl(pos,m_offset[dir].first,m_offset[dir].second,m_speed[static_cast<size_t>(dir)]);
-			this->setPosition(addPos);
+			m_action->moveCtrl(this,m_offset[dir].first,m_offset[dir].second,m_speed[static_cast<size_t>(dir)]);
 		}
 	}
-
 	// 重力と下方向の移動制限
-
-	
 
 	auto animRun = [&](DIR state1,DIR state2,bool reverse)
 	{
 		if ((m_input->GetState(state1) == INPUT_STATE::ON_MON)
 		|| (m_input->GetState(state1) == INPUT_STATE::ON) && (m_input->GetState(state2) == INPUT_STATE::OFF_MON))
 		{
-			lpAnimMng.ActAnim(this, "run", true);
+			lpAnimMng.ActAnim(this,"player","run", true);
 			this->runAction(FlipX::create(reverse));
 		}
 		if (m_input->GetState(state1) == INPUT_STATE::OFF_MON && m_input->GetState(state2) == INPUT_STATE::OFF)
 		{
-			lpAnimMng.ActAnim(this, "idle", true);
+			lpAnimMng.ActAnim(this,"player","idle", true);
 			this->runAction(FlipX::create(reverse));
 		}
 	};
@@ -111,5 +105,5 @@ void Player::update(float dt)
 	animRun(DIR::LEFT,DIR::RIGHT,true);
 	animRun(DIR::RIGHT,DIR::LEFT,false);
 
-	m_input->update();
+	m_input->PressingUpdate();
 }

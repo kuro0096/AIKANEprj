@@ -18,8 +18,8 @@ public:
 		return (*s_Instance);
 	}
 
-	void AnimCacheInit(const std::string unit, const std::string actAnim ,int cnt,float delay);	// ±ÆÒ°¼®İ‚Ì“o˜^(ÕÆ¯Ä–¼,±¸¼®İ–¼,±ÆÒ°¼®İ‚Ì–‡”,±ÆÒ°¼®İ‚ÌŠÔŠu)
-	bool ActAnim(cocos2d::Sprite* sprite,const char* str, bool repeat);							// •Û‘¶‚µ‚½±ÆÒ°¼®İ‚ğrunAction‚·‚é(sprite‚Ìî•ñ,•Û‘¶‚µ‚½–¼‘O,repeat‚·‚é‚©)
+	void AnimCacheInit(const std::string unit,const std::string actAnim,int cnt,float delay);		// ±ÆÒ°¼®İ‚Ì“o˜^(ÕÆ¯Ä–¼,±¸¼®İ–¼,±ÆÒ°¼®İ‚Ì–‡”,±ÆÒ°¼®İ‚ÌŠÔŠu)
+	bool ActAnim(cocos2d::Sprite* sprite,const std::string unit,const std::string str,bool repeat);	// •Û‘¶‚µ‚½±ÆÒ°¼®İ‚ğrunAction‚·‚é(sprite‚Ìî•ñ,•Û‘¶‚µ‚½–¼‘O,repeat‚·‚é‚©)
 	
 	~AnimMng();
 private:

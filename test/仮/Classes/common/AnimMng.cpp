@@ -24,33 +24,34 @@ void AnimMng::AnimCacheInit(const std::string unit, const std::string actAnim, i
 	// ｱﾆﾒｰｼｮﾝにｷｬｯｼｭから画像を取り出す
 	for (int i = 1; i <= cnt; i++)
 	{
-		anim->addSpriteFrame(cache->getSpriteFrameByName(unit+"-"+actAnim+"-" + std::to_string(i) + ".png"));
+		anim->addSpriteFrame(cache->getSpriteFrameByName(unit+"-"+actAnim+"-"+std::to_string(i)+".png"));
 	}
 	// ｱﾆﾒｰｼｮﾝの間隔を設定
 	anim->setDelayPerUnit(delay);
 	// ｱﾆﾒｰｼｮﾝが終わったら1ﾌﾚｰﾑ目に戻す
 	anim->setRestoreOriginalFrame(true);
 	// AnimationCacheにｱﾆﾒｰｼｮﾝ情報を保存
-	m_animSave->addAnimation(anim, actAnim);
+	m_animSave->addAnimation(anim,unit+"-"+actAnim);
 }
 
 // 保存したｱﾆﾒｰｼｮﾝをrunActionする(spriteの情報,保存した名前,repeatするか)
-bool AnimMng::ActAnim(Sprite* sprite,const char * str, bool repeat)
+bool AnimMng::ActAnim(Sprite* sprite,const std::string unit,const std::string actAnim,bool repeat)
 {
+	std::string animName = unit+"-"+actAnim;
 	// 前のｱﾆﾒｰｼｮﾝと違ったら
-	if (m_anim != str)
+	if (m_anim != animName)
 	{
 		// まずすべてのｱｸｼｮﾝを止め
 		sprite->stopAllActions();
 		// 引数のstrと一致するｱﾆﾒｰｼｮﾝをanimateに入れる
-		auto animate = Animate::create(m_animSave->getAnimation(str));
+		auto animate = Animate::create(m_animSave->getAnimation(animName));
 		// repeatがtrueだったらﾘﾋﾟｰﾄするｱﾆﾒｰｼｮﾝ
 		if (repeat)
 		{
 			auto animation =  RepeatForever::create(animate);
 			sprite->runAction(animation);
 			// animに現在のｱﾆﾒｰｼｮﾝを保存
-			m_anim = str;
+			m_anim = animName;
 		}
 		//// repeatがfalseだったら1度だけ実行されるｱﾆﾒｰｼｮﾝ
 		//else

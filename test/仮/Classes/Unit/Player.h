@@ -26,7 +26,6 @@ private:
 	
 	bool m_jumpFlag;						// ¼Ş¬İÌß—pÌ×¸Ş
 	cocos2d::Vec2 m_speed[static_cast<size_t>(DIR::MAX)];	// ˆÚ“®‘¬“x
-	cocos2d::Vec2 m_moveLimit;				// ˆÚ“®§ŒÀ
 	std::map<DIR, std::pair<cocos2d::Vec2, cocos2d::Vec2>> m_offset;
 
 	ActionMng* m_action;

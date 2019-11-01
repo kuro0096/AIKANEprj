@@ -11,10 +11,24 @@ ActionMng::~ActionMng()
 {
 }
 
+// 移動処理(座標,ｵﾌｾｯﾄ座標1,ｵﾌｾｯﾄ座標2,移動量)
+void ActionMng::moveCtrl(Sprite* sp, Vec2 offset1, Vec2 offset2, Vec2 speed)
+{
+	//// 移動制限
+	//if (pos + speed + limit <= 0 || pos + speed + limit >= visibleSize)
+	//{
+	//	sp->setPosition(sp->getPosition() + speed + limit);
+	//}
+	// 現在座標とｵﾌｾｯﾄ座標情報をCollisionCheckに渡す
+	if (!CollisionCheck(sp->getPosition() + speed, offset1, offset2))
+	{
+		sp->setPosition(sp->getPosition() + speed);
+	}
+}
+
 // 当たり判定用関数(spriteの座標,1つ目のｵﾌｾｯﾄ座標,2つ目のｵﾌｾｯﾄ座標)
 bool ActionMng::CollisionCheck(Vec2 pos, Vec2 offsetSpot1, Vec2 offsetSpot2)
 {
-	m_act["左移動"];
 	// ﾚｲﾔｰの情報を取得
 	auto director = Director::getInstance();
 	auto map = (TMXTiledMap*)director->getRunningScene()->getChildByName("BG_BACK")->getChildByName("map");
@@ -38,22 +52,7 @@ bool ActionMng::CollisionCheck(Vec2 pos, Vec2 offsetSpot1, Vec2 offsetSpot2)
 	return false;
 }
 
-Vec2 ActionMng::moveCtrl(Vec2 pos, Vec2 offset1, Vec2 offset2,Vec2 speed)
+void ActionMng::AddAct(std::string actName,ActData& data)
 {
-	//// 移動制限
-	//if (pos + limit < 0 || pos + limit > visibleSize)
-	//{
-	//	return pos += limit;
-	//}
-	// 現在座標とｵﾌｾｯﾄ座標情報をCollisionCheckに渡す
-	if (!CollisionCheck(pos + speed, offset1, offset2))
-	{
-		return pos += speed;
-	}
-	return pos;
-}
-
-void ActionMng::AddAct(const std::string& actName, const ActData& data)
-{
-	m_act[actName] = data;
+	m_actData[actName] = data;
 }
