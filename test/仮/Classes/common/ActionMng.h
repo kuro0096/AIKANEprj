@@ -4,7 +4,7 @@
 
 USING_NS_CC;
 
-class ActData;
+struct ActData;
 
 using actFunc = std::function<bool(std::string, ActData&)>;
 
