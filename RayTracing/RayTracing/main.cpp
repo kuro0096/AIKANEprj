@@ -8,6 +8,12 @@ const int screen_height = 480;
 //別にこの関数を使わなければいけないわけでも、これに沿わなければいけないわけでも
 //ありません。レイトレーシングができていれば構いません。
 
+
+// クランプ...つまり、値を特定の範囲内に収める
+float Clamp(float val, float minval = 0.0f, float maxval = 1.0f) {
+	return max(min(maxval, val), minval);
+}
+
 ///レイ(光線)と球体の当たり判定
 ///@param ray (視点からスクリーンピクセルへのベクトル)
 ///@param sphere 球
@@ -29,7 +35,7 @@ bool IsHitRayAndObject(const Position3& eye,const Vector3& ray,const Sphere& sp,
 	{
 		// ここに来た時点で当たっている
 		// なので
-		// ①まず射影長から√(半径^2-垂線長を引く)
+		// ①まず射影長から√(半径^2-垂線長^2を引く)
 		auto newdistance = pLen - sqrt(pow(sp.radius,2.0) - pow(vLen, 2.0));
 		// それをdistanceに代入
 		distance = newdistance;
@@ -45,21 +51,32 @@ bool IsHitRayAndObject(const Position3& eye,const Vector3& ray,const Sphere& sp,
 ///@param eye 視点座標
 ///@param sphere 球オブジェクト(そのうち複数にする)
 void RayTracing(const Position3& eye,const Sphere& sphere) {
+	Vector3 lightVec(1, -1, -1);
+	lightVec.Normalize();
 	for (int y = 0; y < screen_height; ++y) {//スクリーン縦方向
 		for (int x = 0; x < screen_width; ++x) {//スクリーン横方向
 			//①視点とスクリーン座標から視線ベクトルを作る
-			Vector3 P(x - screen_width /2,y - screen_height /2,0);
+			Vector3 P(x - screen_width /2,screen_height /2 - y,0);
 			Vector3 ray(P - eye);
-			float distance = 0;
+			float distance = 0.0f;
 			//②正規化しとく
 			ray.Normalize();
 			//③IsHitRay関数がTrueだったら白く塗りつぶす
 			//※塗りつぶしはDrawPixelという関数を使う。
-			if (IsHitRayAndObject(eye,ray, sphere,distance))
+			if (IsHitRayAndObject(eye,ray,sphere,distance))
 			{
 				int b = 255;
-				float rate = (400.f - (float)distance) / 100.0f;
-				b *= rate;
+				// まずdiatanceとrayと球体へのベクトルを
+				// もとに法線ベクトルを作る
+				auto N = ray * distance - (sphere.pos - eye);
+				N.Normalize();
+				// そしてその法線ベクトルと「逆」ライトベクトルとの
+				// 内積を取りそれを明るさとする。ただしcosθ
+				auto light = Dot(N, -lightVec);
+				// なので範囲が-1～1までになるため、bをかけてDxLibの
+				// 値のルールに合わせよう。
+				light = Clamp(light);
+				b *= light;
 				DrawPixel(x, y, GetColor(b, b, b));
 			}
 		}
@@ -74,6 +91,7 @@ int main() {
 	// ｽｸﾘｰﾝはZ=0の位置にあるとします
 	// 第一引数が視点座標(0, 0, 300)
 	// 第二引数球体の情報(半径100の中心(0, 0, -100))
+	DrawBox(0, 0, 640, 480, GetColor(0,0,128),true);
 	RayTracing(Vector3(0, 0, 300), Sphere(100, Position3(0, 0, -100)));
 
 	WaitKey();
