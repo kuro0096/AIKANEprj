@@ -8,6 +8,23 @@ enum class INPUT_TYPE	// ‚Ç‚Ì“ü—Í‚©
 	MAX
 };
 
+enum class INPUT_STATE	// “ü—Íó‘Ô
+{
+	OFF,		// —£‚³‚ê‚Ä‚¢‚é
+	OFF_MON,	// —£‚³‚ê‚½uŠÔ
+	ON,			// ‰Ÿ‚³‚ê‚Ä‚¢‚é
+	ON_MON,		// ‰Ÿ‚³‚ê‚½uŠÔ
+	MAX
+};
+
+enum class INPUT__TRG
+{
+	NOW,
+	OLD,
+	INPUT,
+	MAX
+};
+
 enum class DIR			// Œü‚¢‚Ä‚¢‚é•ûŒü
 {
 	NON,	// “ü—Í–³‚µ
@@ -18,29 +35,12 @@ enum class DIR			// Œü‚¢‚Ä‚¢‚é•ûŒü
 	MAX
 };
 
-enum class INPUT_STATE	// “ü—Íó‘Ô
-{
-	OFF,		// —£‚³‚ê‚Ä‚¢‚é
-	OFF_MON,	// —£‚³‚ê‚½uŠÔ
-	ON,			// ‰Ÿ‚³‚ê‚Ä‚¢‚é
-	ON_MON,		// ‰Ÿ‚³‚ê‚½uŠÔ
-	MAX
-};
-
-enum class COMAND
-{
-	RUN,
-	JUMP,
-	SHOT,
-	MAX
-};
-
 struct input : public cocos2d::Node
 {
 	input();
 	~input();
 	virtual void Init(Node* node) = 0;
-	virtual void PressingUpdate() = 0;
+	void PressingUpdate();			// ·°‚Ìî•ñ‚ğXV
 	virtual INPUT_TYPE GetType(void) = 0;
 	INPUT_STATE GetState(const DIR dir) {
 		return m_inputState[dir];	// “ü—Í‚Ìó‘Ô‚ğ•Ô‚·

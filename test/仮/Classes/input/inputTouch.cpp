@@ -30,23 +30,23 @@ bool inputTouch::touchMoved(cocos2d::Touch * touch, cocos2d::Event * event)
 	// ﾀｯﾁの開始位置からある程度動いていたら方向毎の入力情報をtrueに,反対方向をfalseに
 	if (location.x < m_StartPoint.x - offset)
 	{
-		m_dirFlag[static_cast<size_t>(DIR::LEFT)] = true;
-		m_dirFlag[static_cast<size_t>(DIR::RIGHT)] = false;
+		m_inputState[DIR::LEFT] = INPUT_STATE::ON_MON;
+		m_inputState[DIR::RIGHT] = INPUT_STATE::OFF_MON;
 	}
 	if (location.x > m_StartPoint.x + offset)
 	{
-		m_dirFlag[static_cast<size_t>(DIR::RIGHT)] = true;
-		m_dirFlag[static_cast<size_t>(DIR::LEFT)] = false;
+		m_inputState[DIR::RIGHT] = INPUT_STATE::ON_MON;
+		m_inputState[DIR::LEFT] = INPUT_STATE::OFF_MON;
 	}
 	if (location.y < m_StartPoint.y - offset)
 	{
-		m_dirFlag[static_cast<size_t>(DIR::DOWN)] = true;
-		m_dirFlag[static_cast<size_t>(DIR::UP)] = false;
+		m_inputState[DIR::DOWN] = INPUT_STATE::ON_MON;
+		m_inputState[DIR::UP] = INPUT_STATE::OFF_MON;
 	}
 	if (location.y > m_StartPoint.y + offset)
 	{
-		m_dirFlag[static_cast<size_t>(DIR::UP)] = true;
-		m_dirFlag[static_cast<size_t>(DIR::DOWN)] = false;
+		m_inputState[DIR::UP] = INPUT_STATE::ON_MON;
+		m_inputState[DIR::DOWN] = INPUT_STATE::OFF_MON;
 	}
 	return true;
 }
@@ -55,9 +55,16 @@ bool inputTouch::touchMoved(cocos2d::Touch * touch, cocos2d::Event * event)
 bool inputTouch::touchEnd(cocos2d::Touch * touch, cocos2d::Event * event)
 {
 	// ﾀｯﾁが終了したら全ての入力情報をfalseに
-	for (int n = 0; n < static_cast<size_t>(DIR::MAX); n++)
+	for (auto dir : DIR())
 	{
-		m_dirFlag[n] = false;
+		if (m_inputState[dir] == INPUT_STATE::OFF_MON)
+		{
+			m_inputState[dir] = INPUT_STATE::OFF;
+		}
+		if (m_inputState[dir] == INPUT_STATE::ON)
+		{
+			m_inputState[dir] = INPUT_STATE::OFF_MON;
+		}
 	}
 	return true;
 }

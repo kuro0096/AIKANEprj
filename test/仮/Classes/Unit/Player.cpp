@@ -51,13 +51,14 @@ bool Player::Init()
 	// ˆÚ“®—Ê‰Šú‰»
 	m_speed[static_cast<size_t>(DIR::LEFT)] = { - playerSpeed ,0 };
 	m_speed[static_cast<size_t>(DIR::RIGHT)] = { playerSpeed ,0 };
-	m_speed[static_cast<size_t>(DIR::UP)] = { 0 , playerSpeed };
+	m_speed[static_cast<size_t>(DIR::UP)] = { 0 ,playerSpeed };
 	m_speed[static_cast<size_t>(DIR::DOWN)] = { 0 ,-playerSpeed };
 
 	m_action = new(ActionMng);
 
 	ActData data;
 	data.dir = DIR::LEFT;
+	
 	m_action->AddAct("¶ˆÚ“®", data);
 
 	// ±ÆÒ°¼®İ‚Ì“o˜^
@@ -80,7 +81,7 @@ void Player::update(float dt)
 	for (auto dir : DIR())
 	{
 		// Œü‚¢‚Ä‚é•ûŒü‚É‚æ‚Á‚Ä“n‚·’l‚ğ•Ï‚¦‚é
-		if (m_input->GetDir(static_cast<size_t>(dir)) == true)
+		if (m_input->GetState(dir) == INPUT_STATE::ON)
 		{
 			m_action->moveCtrl(this,m_offset[dir].first,m_offset[dir].second,m_speed[static_cast<size_t>(dir)]);
 		}

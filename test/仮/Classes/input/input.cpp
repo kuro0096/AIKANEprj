@@ -36,3 +36,19 @@ DIR operator++(DIR& key)
 {
 	return key = DIR(std::underlying_type<DIR>::type(key) + 1);
 }
+
+// ·°‚Ìî•ñ‚ğXV
+void input::PressingUpdate()
+{
+	for (auto dir : DIR())
+	{
+		if (m_inputState[dir] == INPUT_STATE::OFF_MON)
+		{
+			m_inputState[dir] = INPUT_STATE::OFF;
+		}
+		if (m_inputState[dir] == INPUT_STATE::ON_MON)
+		{
+			m_inputState[dir] = INPUT_STATE::ON;
+		}
+	}
+}

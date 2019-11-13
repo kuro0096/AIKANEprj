@@ -4,19 +4,30 @@
 
 USING_NS_CC;
 
+enum class ACTID
+{
+	IDLE,
+	RUN,
+	JUMP,
+	JUMPING,
+	FALL,
+	FALLING,
+	MAX
+};
+
 struct ActData;
 
-using actFunc = std::function<bool(std::string, ActData&)>;
+using actFunc = std::function<bool(cocos2d::Sprite&,ActData&)>;
 
 struct ActData
 {
+	ACTID actID;
 	actFunc runAct;
 	std::list<actFunc>act;
 	DIR dir;
 	INPUT_STATE state;
-	COMAND comand;
 	cocos2d::Point move;
-	std::pair<Vec2, Vec2>colOffset;
+	std::pair<Vec2,Vec2>colOffset;
 };
 
 class ActionMng

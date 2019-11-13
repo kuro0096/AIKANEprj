@@ -54,5 +54,9 @@ bool ActionMng::CollisionCheck(Vec2 pos, Vec2 offsetSpot1, Vec2 offsetSpot2)
 
 void ActionMng::AddAct(std::string actName,ActData& data)
 {
-	m_actData[actName] = data;
+	if (actName == "¶ˆÚ“®" || actName == "‰EˆÚ“®")
+	{
+		m_actData.try_emplace(actName,std::move(data));
+		// m_actData[actName].runAct = ;
+	}
 }
