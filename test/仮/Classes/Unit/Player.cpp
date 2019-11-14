@@ -57,8 +57,11 @@ bool Player::Init()
 	m_action = new(ActionMng);
 
 	ActData data;
+	data.actID = ACTID::RUN;
 	data.dir = DIR::LEFT;
-	
+	data.move = { -2 ,0 };
+	data.state = INPUT_STATE::ON;
+	data.colOffset = { Vec2(-24,35) , Vec2(-24,-65) };
 	m_action->AddAct("¶ˆÚ“®", data);
 
 	// ±ÆÒ°¼®Ý‚Ì“o˜^
@@ -77,16 +80,16 @@ bool Player::Init()
 // î•ñXV
 void Player::update(float dt)
 {
-	// ˆÚ“®ˆ—
-	for (auto dir : DIR())
-	{
-		// Œü‚¢‚Ä‚é•ûŒü‚É‚æ‚Á‚Ä“n‚·’l‚ð•Ï‚¦‚é
-		if (m_input->GetState(dir) == INPUT_STATE::ON)
-		{
-			m_action->moveCtrl(this,m_offset[dir].first,m_offset[dir].second,m_speed[static_cast<size_t>(dir)]);
-		}
-	}
-	// d—Í‚Æ‰º•ûŒü‚ÌˆÚ“®§ŒÀ
+	//// ˆÚ“®ˆ—
+	//for (auto dir : DIR())
+	//{
+	//	// Œü‚¢‚Ä‚é•ûŒü‚É‚æ‚Á‚Ä“n‚·’l‚ð•Ï‚¦‚é
+	//	if (m_input->GetState(dir) == INPUT_STATE::ON)
+	//	{
+	//		m_action->moveCtrl(this,m_offset[dir].first,m_offset[dir].second,m_speed[static_cast<size_t>(dir)]);
+	//	}
+	//}
+	//// d—Í‚Æ‰º•ûŒü‚ÌˆÚ“®§ŒÀ
 
 	auto animRun = [&](DIR state1,DIR state2,bool reverse)
 	{
@@ -106,5 +109,9 @@ void Player::update(float dt)
 	animRun(DIR::LEFT,DIR::RIGHT,true);
 	animRun(DIR::RIGHT,DIR::LEFT,false);
 
+	if (m_input->GetState(DIR::LEFT) == INPUT_STATE::ON)
+	{
+		m_action->ActRun(*this, "¶ˆÚ“®");
+	}
 	m_input->PressingUpdate();
 }

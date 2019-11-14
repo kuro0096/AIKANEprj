@@ -8,7 +8,7 @@ enum class INPUT_TYPE	// ‚Ç‚Ì“ü—Í‚©
 	MAX
 };
 
-enum class INPUT_STATE	// “ü—Íó‘Ô
+enum class INPUT_STATE	// ‰Ÿ‚³‚ê‚Ä‚¢‚é‚©,—£‚³‚ê‚Ä‚¢‚é‚©
 {
 	OFF,		// —£‚³‚ê‚Ä‚¢‚é
 	OFF_MON,	// —£‚³‚ê‚½uŠÔ
@@ -17,11 +17,11 @@ enum class INPUT_STATE	// “ü—Íó‘Ô
 	MAX
 };
 
-enum class INPUT__TRG
+enum class INPUT_TRG	// “ü—Íó‘Ô
 {
-	NOW,
-	OLD,
-	INPUT,
+	NOW,	// “ü—Í’†ó‘Ô
+	OLD,	// “ü—Í‚³‚ê‚Ä‚¢‚È‚¢ó‘Ô
+	INPUT,	// ˆêŽž“I‚ÉŠi”[
 	MAX
 };
 
