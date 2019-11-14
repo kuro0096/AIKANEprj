@@ -34,11 +34,25 @@ void ActionMng::AddAct(std::string actName,ActData& data)
 	{
 		m_actData.try_emplace(actName,std::move(data));
 		m_actData[actName].act.emplace_back(CollisionCheck());
+
 		m_actData[actName].runAct = MoveLR();
 	}
 }
 
 void ActionMng::ActRun(Sprite & sprite,std::string actName)
 {
-	m_actData[actName].runAct(sprite, m_actData[actName]);
+	for (auto data : m_actData)
+	{
+		for (auto check : data.second.act)
+		{
+			if (check(sprite, data.second))
+			{
+				m_actData[actName].runAct(sprite, m_actData[actName]);
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
 }

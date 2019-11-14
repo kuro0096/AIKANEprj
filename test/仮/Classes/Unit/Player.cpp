@@ -64,6 +64,8 @@ bool Player::Init()
 	data.colOffset = { Vec2(-24,35) , Vec2(-24,-65) };
 	m_action->AddAct("¶ˆÚ“®", data);
 
+
+
 	// ±ÆÒ°¼®İ‚Ì“o˜^
 	lpAnimMng.AnimCacheInit("player", "idle", 4, 0.3f);
 	lpAnimMng.AnimCacheInit("player", "run", 10, 0.1f);

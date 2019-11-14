@@ -18,10 +18,10 @@ bool CollisionCheck::operator()(cocos2d::Sprite& sprite, ActData& data)
 	Vec2 center = { float((int)vec.x + (int)vec2.x) / 2, float((int)vec.y + (int)vec2.y) / 2 };
 
 	// 3“_‚Å“–‚½‚è”»’è‚Ìˆ—
-	// “_‚ÆÚ²Ô°‚ª“–‚½‚Á‚Ä‚¢‚½‚çtrue‚ğ“–‚½‚Á‚Ä‚¢‚È‚©‚Á‚½‚çfalse‚ğ•Ô‚·
+	// “_‚ÆÚ²Ô°‚ª“–‚½‚Á‚Ä‚¢‚½‚çfalse‚ğ“–‚½‚Á‚Ä‚¢‚È‚©‚Á‚½‚çtrue‚ğ•Ô‚·
 	if (layer->getTileGIDAt(center) != 0 || layer->getTileGIDAt(vec) != 0 || layer->getTileGIDAt(vec2) != 0)
 	{
-		return true;
+		return false;
 	}
-	return false;
+	return true;
 }
