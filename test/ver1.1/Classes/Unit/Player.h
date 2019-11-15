@@ -6,9 +6,6 @@
 #include "common/ActionMng.h"
 
 constexpr float playerSpeed = 3.0f;			// ﾌﾟﾚｲﾔｰの移動量
-constexpr float offsetX = 24.0f;			// 左右用のｵﾌｾｯﾄ座標量
-constexpr float bustOffsetY = 35.0f;		// 中心より上のｵﾌｾｯﾄ座標量
-constexpr float legOffsetY = 65.0f;			// 中心より下のｵﾌｾｯﾄ座標量
 
 class Player : public cocos2d::Sprite
 {

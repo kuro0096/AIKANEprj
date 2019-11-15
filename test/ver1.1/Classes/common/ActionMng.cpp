@@ -16,12 +16,20 @@ ActionMng::~ActionMng()
 
 void ActionMng::AddAct(std::string actName,ActData& data)
 { 
-	if (actName == "¶ˆÚ“®" || actName == "‰EˆÚ“®")
+	if (actName == "Left" || actName == "Right")
 	{
-		m_actData.insert(std::make_pair(actName,std::move(data)));
-		m_actData[actName].act.emplace_back(CollisionCheck());
-		m_actData[actName].act.emplace_back(CheckKey());
+		m_actData.emplace(actName,std::move(data));
+		m_actData[actName].checkList.emplace_back(CheckKey());
+		m_actData[actName].checkList.emplace_back(CollisionCheck());
 		m_actData[actName].runAct = MoveLR();
+	}
+	if (actName == "ƒWƒƒƒ“ƒv’†")
+	{
+		
+	}
+	if (actName == "—‰º’†")
+	{
+
 	}
 }
 
@@ -29,15 +37,11 @@ void ActionMng::ActRun()
 {
 	for (auto data : m_actData)
 	{
-		for (auto check : data.second.act)
+		for (auto check : data.second.checkList)
 		{
-			if (check(*m_sprite, data.second))
+			if (check(*m_sprite, data.second) && m_actData[data.first].runAct != nullptr)
 			{
 				m_actData[data.first].runAct(*m_sprite, m_actData[data.first]);
-			}
-			else
-			{
-				break;
 			}
 		}
 	}

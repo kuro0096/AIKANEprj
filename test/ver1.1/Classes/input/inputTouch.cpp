@@ -24,7 +24,7 @@ bool inputTouch::touchBegan(cocos2d::Touch * touch, cocos2d::Event * event)
 // ﾀｯﾁ中の処理
 bool inputTouch::touchMoved(cocos2d::Touch * touch, cocos2d::Event * event)
 {
-	auto offset = 10;
+	auto offset = 5;
 	auto location = touch->getLocation();
 
 	// ﾀｯﾁの開始位置からある程度動いていたら方向毎の入力情報をtrueに,反対方向をfalseに
@@ -61,7 +61,7 @@ bool inputTouch::touchEnd(cocos2d::Touch * touch, cocos2d::Event * event)
 		{
 			m_inputState[dir] = INPUT_STATE::OFF;
 		}
-		if (m_inputState[dir] == INPUT_STATE::ON)
+		if (m_inputState[dir] == INPUT_STATE::ON || m_inputState[dir] == INPUT_STATE::ON_MON)
 		{
 			m_inputState[dir] = INPUT_STATE::OFF_MON;
 		}

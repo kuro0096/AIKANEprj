@@ -23,7 +23,7 @@ struct ActData
 {
 	ACTID actID;
 	actFunc runAct;
-	std::list<actFunc>act;
+	std::list<actFunc>checkList;
 	DIR dir;
 	cocos2d::Point move;
 	INPUT_STATE state;
@@ -35,6 +35,7 @@ class ActionMng
 public:
 	ActionMng(cocos2d::Sprite* sp);
 	~ActionMng();
+	//void update(float dt);		// î•ñXV
 
 	void AddAct(std::string actName,ActData& data);
 	void ActRun();

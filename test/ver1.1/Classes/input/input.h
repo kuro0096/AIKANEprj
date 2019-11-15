@@ -35,7 +35,7 @@ enum class DIR			// Œü‚¢‚Ä‚¢‚é•ûŒü
 	MAX
 };
 
-using inputMap = std::map<DIR,INPUT_STATE>;
+using inputMap = std::map<DIR, INPUT_STATE>;
 
 struct input : public cocos2d::Node
 {

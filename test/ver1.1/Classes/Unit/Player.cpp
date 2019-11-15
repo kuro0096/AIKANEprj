@@ -37,19 +37,10 @@ bool Player::Init()
 	this->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + this->getContentSize().height + 20));
 	// •Ï”‰Šú‰»
 	m_jumpFlag = false;
-
-	// offset‰Šú‰»
-	// ¶ã,¶‰º
-	m_offset[DIR::LEFT] = { Vec2(-offsetX, bustOffsetY),Vec2(-offsetX,-legOffsetY) };
-	// ‰Eã,‰E‰º
-	m_offset[DIR::RIGHT] = { Vec2(offsetX, bustOffsetY),Vec2(offsetX,-legOffsetY) };
-	// ¶ã,‰Eã
-	m_offset[DIR::UP] = { Vec2(-offsetX, bustOffsetY),Vec2(offsetX,bustOffsetY) };
-	// ¶‰º,‰E‰º
-	m_offset[DIR::DOWN] = { Vec2(-offsetX, -legOffsetY),Vec2(offsetX,-legOffsetY) };
-
+	// ±¸¼®ÝŠÇ——p
 	m_action = new ActionMng(this);
 
+	// ¶ˆÚ“®‚Ìî•ñ“o˜^
 	{
 		ActData data;
 		data.actID = ACTID::RUN;
@@ -57,9 +48,9 @@ bool Player::Init()
 		data.move = { -playerSpeed ,0 };
 		data.state = INPUT_STATE::ON;
 		data.colOffset = { Vec2(-24,35) , Vec2(-24,-65) };
-		m_action->AddAct("¶ˆÚ“®", data);
+		m_action->AddAct("Left", data);
 	}
-
+	// ‰EˆÚ“®‚Ìî•ñ“o˜^
 	{
 		ActData data;
 		data.actID = ACTID::RUN;
@@ -67,7 +58,26 @@ bool Player::Init()
 		data.move = { playerSpeed ,0 };
 		data.state = INPUT_STATE::ON;
 		data.colOffset = { Vec2(24,35) , Vec2(24,-65) };
-		m_action->AddAct("‰EˆÚ“®", data);
+		m_action->AddAct("Right", data);
+	}
+	// ƒWƒƒƒ“ƒv’†‚Ìî•ñ“o˜^
+	{
+		ActData data;
+		data.actID = ACTID::JUMP;
+		data.dir = DIR::UP;
+		data.move = { 0 , playerSpeed };
+		data.state = INPUT_STATE::ON_MON;
+		data.colOffset = { Vec2(-24,35) , Vec2(24,35) };
+		m_action->AddAct("ƒWƒƒƒ“ƒv’†", data);
+	}
+	// —Ž‰º’†‚Ìî•ñ“o˜^
+	{
+		ActData data;
+		data.actID = ACTID::FALLING;
+		data.move = { 0 , -playerSpeed };
+		data.state = INPUT_STATE::OFF;
+		data.colOffset = { Vec2(-24,-65) , Vec2(24,-65) };
+		m_action->AddAct("—Ž‰º’†", data);
 	}
 
 	// ±ÆÒ°¼®Ý‚Ì“o˜^
@@ -86,24 +96,6 @@ bool Player::Init()
 // î•ñXV
 void Player::update(float dt)
 {
-	auto animRun = [&](DIR state1,DIR state2,bool reverse)
-	{
-		if ((m_input->GetState(state1) == INPUT_STATE::ON_MON)
-		|| (m_input->GetState(state1) == INPUT_STATE::ON) && (m_input->GetState(state2) == INPUT_STATE::OFF_MON))
-		{
-			lpAnimMng.ActAnim(this,"player","run", true);
-			this->runAction(FlipX::create(reverse));
-		}
-		if (m_input->GetState(state1) == INPUT_STATE::OFF_MON && m_input->GetState(state2) == INPUT_STATE::OFF)
-		{
-			lpAnimMng.ActAnim(this,"player","idle", true);
-			this->runAction(FlipX::create(reverse));
-		}
-	};
-
-	animRun(DIR::LEFT,DIR::RIGHT,true);
-	animRun(DIR::RIGHT,DIR::LEFT,false);
-
-	m_action->ActRun();
 	m_input->PressingUpdate();
+	m_action->ActRun();
 }
