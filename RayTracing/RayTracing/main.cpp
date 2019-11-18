@@ -47,6 +47,16 @@ bool IsHitRayAndObject(const Position3& eye,const Vector3& ray,const Sphere& sp,
 	}
 }
 
+// 反射ベクトルを返す
+// param inVec 入射ベクトル
+// param nvec 法線ベクトル(正規化済み)
+// retval 反射ベクトル
+Vector3
+RefrectVector(const Vector3& inVec, const Vector3& nVec) {
+	// R = I-2N(I・N)を返す
+	return inVec -nVec * 2 * Dot(inVec, nVec);
+}
+
 ///レイトレーシング
 ///@param eye 視点座標
 ///@param sphere 球オブジェクト(そのうち複数にする)
@@ -72,11 +82,17 @@ void RayTracing(const Position3& eye,const Sphere& sphere) {
 				N.Normalize();
 				// そしてその法線ベクトルと「逆」ライトベクトルとの
 				// 内積を取りそれを明るさとする。ただしcosθ
+				// 拡散反射光(ディフューズ)
 				auto light = Dot(N, -lightVec);
+				// 鏡面反射光(スペキュラ)
+				auto refLightVec = RefrectVector(lightVec,N);
+				// 偶数だとcosのマイナス部がなくなるので奇数を乗算する
+				auto sp = pow(Clamp(Dot(-ray, refLightVec)), 10);
 				// なので範囲が-1～1までになるため、bをかけてDxLibの
 				// 値のルールに合わせよう。
-				light = Clamp(light);
-				b *= light;
+				// 環境光(アンビエント)
+				auto ambient = 0.15f;
+				b *= Clamp(max(light + sp , ambient));
 				DrawPixel(x, y, GetColor(b, b, b));
 			}
 		}
@@ -88,11 +104,13 @@ int main() {
 	SetGraphMode(screen_width, screen_height, 32);
 	SetMainWindowText(_T("1816223_千々波光祐"));
 	DxLib_Init();
+
 	// ｽｸﾘｰﾝはZ=0の位置にあるとします
 	// 第一引数が視点座標(0, 0, 300)
 	// 第二引数球体の情報(半径100の中心(0, 0, -100))
-	DrawBox(0, 0, 640, 480, GetColor(0,0,128),true);
-	RayTracing(Vector3(0, 0, 300), Sphere(100, Position3(0, 0, -100)));
+	/*DrawBox(0, 0, 640, 480, GetColor(0,0,128),true);*/
+	auto sp = Sphere(100, Position3(0, 0, -100));
+	RayTracing(Vector3(0, 0, 300), sp);
 
 	WaitKey();
 	DxLib_End();
