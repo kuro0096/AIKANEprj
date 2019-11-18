@@ -45,7 +45,7 @@ bool Player::Init()
 		ActData data;
 		data.actID = ACTID::RUN;
 		data.dir = DIR::LEFT;
-		data.move = { -3 ,0 };
+		data.move = { -5 ,0 };
 		data.state = INPUT_STATE::ON;
 		data.colOffset = { Vec2(-24,35) , Vec2(-24,-65) };
 		m_action->AddAct("¶ˆÚ“®", data);
