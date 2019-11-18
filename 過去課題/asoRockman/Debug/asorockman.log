@@ -1,0 +1,16 @@
+﻿  player.cpp
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(133): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(140): warning C4305: '-=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(154): warning C4244: '-=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(245): warning C4244: '+=': 'float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(253): warning C4244: '+=': 'float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(332): warning C4305: '-=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(341): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(363): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(370): warning C4305: '-=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(383): warning C4244: '-=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(473): warning C4244: '+=': 'float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(481): warning C4244: '+=': 'float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(560): warning C4305: '-=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\1816223_千々波光祐_後期課題2\player.cpp(569): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+  asorockman.vcxproj -> C:\Users\1816223\Desktop\1816223_千々波光祐_後期課題2\Debug\asorockman.exe

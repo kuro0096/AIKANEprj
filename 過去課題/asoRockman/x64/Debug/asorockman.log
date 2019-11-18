@@ -1,0 +1,16 @@
+﻿  player.cpp
+c:\users\1816223\desktop\asorockman\player.cpp(132): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\asorockman\player.cpp(139): warning C4305: '-=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\asorockman\player.cpp(153): warning C4244: '-=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\1816223\desktop\asorockman\player.cpp(247): warning C4244: '+=': 'float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\1816223\desktop\asorockman\player.cpp(255): warning C4244: '+=': 'float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\1816223\desktop\asorockman\player.cpp(358): warning C4305: '-=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\asorockman\player.cpp(367): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\asorockman\player.cpp(389): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\asorockman\player.cpp(396): warning C4305: '-=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\asorockman\player.cpp(410): warning C4244: '-=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\1816223\desktop\asorockman\player.cpp(504): warning C4244: '+=': 'float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\1816223\desktop\asorockman\player.cpp(512): warning C4244: '+=': 'float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\1816223\desktop\asorockman\player.cpp(613): warning C4305: '-=': 'double' から 'float' へ切り詰めます。
+c:\users\1816223\desktop\asorockman\player.cpp(622): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+  asorockman.vcxproj -> C:\Users\1816223\Desktop\asorockman\x64\Debug\asorockman.exe

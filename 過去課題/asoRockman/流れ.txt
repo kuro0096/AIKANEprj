@@ -1,0 +1,154 @@
+①AsoRockmanの新規プロジェクトを作ろう。
+
+②BaseProjectから必要なファイルを新規作成した
+　フォルダにコピーしよう。
+　・main.h  main.cpp
+　・keycheck.h  keycheck.cpp
+
+③AsoRockmanのプロジェクトから必要なファイルを追加しよう。
+
+～～ ASOROCKMANの始まり ～～
+
+④タイトル画面・ゲームオーバー画面を作る。
+　int titleImage;
+　int gameoverImage;
+　int hitstartkeyImage;
+　・タイトルのサイズに合わせてスクリーンサイズを調整する。
+
+
+*** POINT！ ***　ファイル分割をやっていこう！
+
+⑤地図を表示する。
+　stage.cpp を作ってから機能を実装しよう。
+　チップをロードする。
+　２次元のマップデータに合わせて地図を表示する。
+　int mapImage[13];		//マップ画像
+　※地図データはサーバにあります。
+
+　void StageSystemInit(void);
+　void StageGameInit(void);
+　void StageDraw(void);
+
+*** POINT！ ***　キャラクタ用の共通構造体を用意しよう！
+
+enum MOVE_DIR {
+	DIR_UP,
+	DIR_RIGHT,
+	DIR_DOWN,
+	DIR_LEFT,
+	DIR_MAX
+};
+
+typedef struct {
+	MOVE_DIR moveDir;	//向いている方向
+	XY pos;			//キャラクタの位置（中心）
+	XY size;		//キャラクタ画像のサイズ
+	XY sizeOffset;		//キャラクタ中央からの左上位置
+	XY hitPosS;		//当たり判定用の左上
+	XY hitPosE;		//当たり判定用の右下
+	bool runFlag;		//キャラクタの状態（走っているか？）
+	bool jumpFlag;		//キャラクタの状態（ジャンプしているか？）
+	bool shotFlag;		//キャラクタの状態（弾撃っているか？）
+	bool damageFlag;	//キャラクタの状態（ダメージ受けているか？）
+	int moveSpeed;		//キャラクタの移動量
+	int life;		//キャラクタの体力
+	int lifeMax;		//キャラクタの体力最大
+	int animCnt;		//キャラクタのアニメーション用カウンタ
+	int imgLockCnt;		//キャラクタのイメージ固定用カウンタ
+} CHARACTER;
+
+⑥自キャラを表示する。
+　player.cpp を作ってから機能を実装しよう。
+　CHARACTER player1;
+
+int p1StopImage[2];	// 停止状態の画像
+int p1RunImage[2][4];	// 走り状態の画像
+int p1JumpImage[2];	// ｼﾞｬﾝﾌﾟ中の画像
+
+int p1DamageImage;	// ﾀﾞﾒｰｼﾞ画像
+int p1TobichiriImage[6];
+
+　void PlayerSystemInit(void)
+　void PlayerGameInit(void)
+　void PlayerControl(void)
+　void PlayerDraw(void)
+
+⑦自キャラの状態を作成し、それぞれが表示できるか確認しよう。
+CHARACTER構造体に以下を追加しよう。
+	bool runFlag;
+	bool jumpFlag;
+	bool shotFlag;
+	bool damageFlag;
+	int imgLockCnt;
+
+⑧自キャラの慣性の無い今までと同じ走るを実装しよう。
+　右向きと左向きでイメージが無いがどうするのか？
+　　DrawTurnGraph を使おう！
+　いろいろな条件にあわせて表示イメージを変更する方法は？
+　　フラグを確認しながらイメージを選択出来るようにしよう。
+
+⑨自キャラのジャンプを実装しよう。
+　・物理の公式を簡略化しよう
+　　　フレーム単位に移動量を考えたい
+　　　ちょっとした計算をやってみる。
+　　　ゲームは法則にきっちり従わなくてもＯＫ！
+　　　速さと加速度の関係から移動量をざっくり考えてみる。
+
+　CHARACTERに XY_F velocityを追加
+　
+　main.h
+　#define ACC_G		10 //重力加速度
+
+　player.cpp
+　#define INIT_VELOCITY	50 //初速度
+
+⑩左右のブロックにぶつかるようにしよう。
+　ASOULQUESTと同様にぶつかるロジックを考えよう。
+
+XY MapPosToIndex(XY pos)
+XY MapIndexToPos(XY index)
+bool IsPass(XY pos)
+プレイヤーの画像範囲と当たり判定範囲を表示しておこう！
+背景画像に32×32のラインを入れておこう！
+
+⑪ブロックの上で止まれる（乗れる）様にしよう。
+　常に重力を受けているので、下方向に移動していると考えるとどうなるのか？
+　ぶつかる判定の範囲を考慮して、ブロックに当たっているのかを判定しよう。
+
+⑫ジャンプした時に、頭の上にブロックがあればぶつかるようにしよう。
+　ブロックの上に乗る方法ほとんど同じです。
+
+⑬足だけが残った状態で、ブロックの上に止まれないので
+　残れるようにしよう。
+　IsPassする個所を増やすことで対応できる。
+
+⑭左右のブロックの当たり判定も同様に当たり判定箇所を増やしてみよう。
+
+⑮左右のブロックに当たった場合に位置を修正するようにしてみよう。
+
+⑯慣性がある走りを実装しよう（左右）。
+　キー操作以外の時も自キャラが動くので処理を変える必要がある。
+　走る止まるにも加速度が加わるので以下を追加しよう。
+
+#define ACC_RUN				0.15	//走る加速度
+#define ACC_STOP			0.10	//停止加速度
+#define VELOCITY_X_MAX		8		//X方向の速度MAX
+
+　簡略化したジャンプと同じように考えよう。
+　キー入力されている時は、走る加速度、されていない時は停止加速度を使う。
+　今までは向きで判断していたけど、向きに関係なく移動するので
+　判断の基準が速度に変わるのに注意しよう。
+
+⑰弾を撃ってみよう。
+　shot.cppを作ろう。
+　ASOULQUESTと同じような方法弾を出す。
+　弾は配列にしておこう。
+　Player2もこの弾だし機能を使うよ。
+
+⑱Player2を作ろう。
+　今回は、player.cppをコピーしてplayer2.cppを作成して
+　2プレイ可能にやってみよう。
+
+
+
+
