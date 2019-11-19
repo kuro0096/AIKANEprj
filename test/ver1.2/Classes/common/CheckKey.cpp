@@ -1,6 +1,7 @@
 #include "CheckKey.h"
 #include "Unit/Player.h"
 
+// ·°‚Ì“ü—Íî•ñ‚ğ”»’è‚·‚é‚½‚ß‚ÌŠÖ”
 bool CheckKey::operator()(cocos2d::Sprite & sprite, ActData & data)
 {
 	inputMap input;

@@ -4,9 +4,10 @@
 
 struct MoveLR
 {
+	// ¶‰EˆÚ“®—pŠÖ”
 	bool operator()(cocos2d::Sprite& sprite,ActData& data)
 	{
-		sprite.setPosition(sprite.getPosition() + data.move);
+		sprite.setPositionX(sprite.getPositionX() + data.move.x);
 		return true;
 	};
 };

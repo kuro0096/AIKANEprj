@@ -40,9 +40,19 @@ DIR operator++(DIR& key)
 // ｷｰの情報を更新
 void input::PressingUpdate()
 {
-	int cnt = 0;
+	int cnt = 0; 
+	bool nonFlag = true;
 	for (auto dir : DIR())
 	{
+		// 全て入力がなかったら無し状態をtrueに
+		if (m_inputState[dir] == INPUT_STATE::ON || m_inputState[dir] == INPUT_STATE::ON_MON)
+		{
+			nonFlag = false;
+		}
+		if (nonFlag)
+		{
+			m_inputState[DIR::NON] = INPUT_STATE::ON_MON;
+		}
 		// ｷｰが押された瞬間か離された瞬間だったら更新
 		if (m_inputState[dir] == INPUT_STATE::OFF_MON)
 		{
@@ -51,15 +61,6 @@ void input::PressingUpdate()
 		if (m_inputState[dir] == INPUT_STATE::ON_MON)
 		{
 			m_inputState[dir] = INPUT_STATE::ON;
-		}
-		// 全て入力がなかったら無し状態をtrueに
-		if (m_inputState[dir] == INPUT_STATE::OFF)
-		{
-			cnt++;
-		}
-		if (cnt == static_cast<int>(DIR::MAX))
-		{
-			m_inputState[DIR::NON] = INPUT_STATE::ON;
 		}
 	}
 }

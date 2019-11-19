@@ -37,6 +37,8 @@ bool Player::Init()
 	this->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + this->getContentSize().height + 20));
 	// •Ï”‰Šú‰»
 	m_jumpFlag = false;
+	m_reverse = false;
+	m_actState = ACTID::IDLE;
 	// ±¸¼®ÝŠÇ——p
 	m_action = new ActionMng(this);
 
@@ -45,7 +47,7 @@ bool Player::Init()
 		ActData data;
 		data.actID = ACTID::RUN;
 		data.dir = DIR::LEFT;
-		data.move = { -5 ,0 };
+		data.move = { -3 ,0 };
 		data.state = INPUT_STATE::ON;
 		data.colOffset = { Vec2(-24,35) , Vec2(-24,-65) };
 		m_action->AddAct("¶ˆÚ“®", data);
@@ -60,13 +62,24 @@ bool Player::Init()
 		data.colOffset = { Vec2(24,35) , Vec2(24,-65) };
 		m_action->AddAct("‰EˆÚ“®", data);
 	}
-	// ƒWƒƒƒ“ƒv’†‚Ìî•ñ“o˜^
+	// ¼Þ¬ÝÌßŠJŽnŽž‚Ì“o˜^
 	{
 		ActData data;
 		data.actID = ACTID::JUMP;
+		data.blackList.emplace_back(ACTID::RUN);
 		data.dir = DIR::UP;
-		data.move = { 0 , 10 };
+		data.move = { 0 , 0.1f };
 		data.state = INPUT_STATE::ON_MON;
+		data.colOffset = { Vec2(-24,35) , Vec2(24,35) };
+		m_action->AddAct("ƒWƒƒƒ“ƒvŠJŽn", data);
+	}
+	// ¼Þ¬ÝÌß’†‚Ìî•ñ“o˜^
+	{
+		ActData data;
+		data.actID = ACTID::JUMPING;
+		data.blackList.emplace_back(ACTID::JUMP);
+		data.blackList.emplace_back(ACTID::RUN);
+		data.dir = DIR::UP;
 		data.colOffset = { Vec2(-24,35) , Vec2(24,35) };
 		m_action->AddAct("ƒWƒƒƒ“ƒv’†", data);
 	}
@@ -74,6 +87,7 @@ bool Player::Init()
 	{
 		ActData data;
 		data.actID = ACTID::FALLING;
+		data.blackList.emplace_back(ACTID::JUMP);
 		data.dir = DIR::NON;
 		data.move = { 0 , -10 };
 		data.state = INPUT_STATE::ON;
@@ -98,5 +112,21 @@ bool Player::Init()
 void Player::update(float dt)
 {
 	m_action->ActRun();
+	m_actState = m_action->GetActID();
+	if (m_input->GetState(DIR::LEFT) == INPUT_STATE::ON_MON)
+	{
+		lpAnimMng.ActAnim(this, "player", "run", true);
+		m_reverse = true;
+	}
+	if (m_input->GetState(DIR::RIGHT) == INPUT_STATE::ON_MON)
+	{
+		lpAnimMng.ActAnim(this, "player", "run", true);
+		m_reverse = false;
+	}
+	if (m_input->GetState(DIR::NON) == INPUT_STATE::ON_MON)
+	{
+		lpAnimMng.ActAnim(this, "player", "idle", true);
+	}
+	this->runAction(FlipX::create(m_reverse));
 	m_input->PressingUpdate();
 }

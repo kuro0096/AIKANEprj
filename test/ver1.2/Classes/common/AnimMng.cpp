@@ -53,13 +53,13 @@ bool AnimMng::ActAnim(Sprite* sprite,const std::string unit,const std::string ac
 			// animに現在のｱﾆﾒｰｼｮﾝを保存
 			m_anim = animName;
 		}
-		//// repeatがfalseだったら1度だけ実行されるｱﾆﾒｰｼｮﾝ
-		//else
-		//{
-		//	// 1度実行されたら前のｱﾆﾒｰｼｮﾝに戻すようにする
-		//	auto oldanimate = Repeat::create(Animate::create(animSave->getAnimation(anim)),-1);
-		//	sprite->runAction(Sequence::create(animate,oldanimate,nullptr));
-		//}
+		// repeatがfalseだったら1度だけ実行されるｱﾆﾒｰｼｮﾝ
+		else
+		{
+			// 1度実行されたら前のｱﾆﾒｰｼｮﾝに戻すようにする
+			auto oldanimate = Repeat::create(Animate::create(m_animSave->getAnimation(m_anim)),-1);
+			sprite->runAction(Sequence::create(animate,oldanimate,nullptr));
+		}
 	}
 	return true;
 }

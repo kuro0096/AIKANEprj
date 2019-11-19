@@ -25,6 +25,8 @@ private:
 	std::map<DIR, std::pair<cocos2d::Vec2, cocos2d::Vec2>> m_offset;
 
 	ActionMng* m_action;
+	ACTID m_actState;
+	bool m_reverse;
 
 	CREATE_FUNC(Player);
 };
