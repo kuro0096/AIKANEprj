@@ -1,11 +1,5 @@
 #pragma execution_character_set("utf-8")
-#include "ActionMng.h"
-#include "CheckList.h"
-#include "CheckKey.h"
-#include "CollisionCheck.h"
-#include "MoveLR.h"
-#include "MoveJump.h"
-#include "Gravity.h"
+#include "CommonInclude.h"
 
 ActionMng::ActionMng(cocos2d::Sprite* sp)
 {

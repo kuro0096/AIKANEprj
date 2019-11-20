@@ -1,0 +1,7 @@
+#include "ActionMng.h"
+#include "CheckList.h"
+#include "CheckKey.h"
+#include "CollisionCheck.h"
+#include "MoveLR.h"
+#include "MoveJump.h"
+#include "Gravity.h"

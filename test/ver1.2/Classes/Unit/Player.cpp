@@ -92,6 +92,7 @@ bool Player::Init()
 		ActData data;
 		data.actID = ACT_ID::FALLING;
 		data.blackList.emplace_back(ACT_ID::JUMP);
+		data.blackList.emplace_back(ACT_ID::RUN);
 		data.dir = DIR::NON;
 		data.move = { 0 , -10 };
 		data.state = INPUT_STATE::ON;
