@@ -43,6 +43,7 @@ void inputKey::Init(Node * node)
 		{
 			m_inputState[DIR::UP] = INPUT_STATE::OFF_MON;
 		}
+		m_inputState[DIR::NON] = INPUT_STATE::OFF_MON;
 		return true;
 	};
 	node->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, node);

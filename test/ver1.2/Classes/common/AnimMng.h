@@ -11,11 +11,11 @@ public:
 	static AnimMng& GetInstance()
 	{
 		// 1“x‚¾‚¯²İ½Àİ½
-		if (s_Instance == nullptr)
+		if (s_instance == nullptr)
 		{
-			s_Instance = new AnimMng();
+			s_instance = new AnimMng();
 		}
-		return (*s_Instance);
+		return (*s_instance);
 	}
 
 	void AnimCacheInit(const std::string unit,const std::string actAnim,int cnt,float delay);		// ±ÆÒ°¼®İ‚Ì“o˜^(ÕÆ¯Ä–¼,±¸¼®İ–¼,±ÆÒ°¼®İ‚Ì–‡”,±ÆÒ°¼®İ‚ÌŠÔŠu)
@@ -24,7 +24,7 @@ public:
 	~AnimMng();
 private:
 	AnimMng();
-	static AnimMng* s_Instance;				// AnimMng‚Å²İ½Àİ½‚·‚é•Ï”
+	static AnimMng* s_instance;				// AnimMng‚Å²İ½Àİ½‚·‚é•Ï”
 
 	cocos2d::AnimationCache* m_animSave;	// ±ÆÒ°¼®İ‚ÌÃŞ°À•Û‘¶—p•Ï”
 	std::string m_anim;						// ‚Ç‚Ì±ÆÒ°¼®İ‚ªÀs‚³‚ê‚Ä‚¢‚é‚©•¶š—ñ‚Å•Û‘¶

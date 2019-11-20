@@ -40,7 +40,6 @@ DIR operator++(DIR& key)
 // ·°‚Ìî•ñ‚ğXV
 void input::PressingUpdate()
 {
-	int cnt = 0; 
 	bool nonFlag = true;
 	for (auto dir : DIR())
 	{

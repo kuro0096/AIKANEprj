@@ -12,7 +12,7 @@ public:
 	static _DebugConOut& GetInstance()
 	{
 		// ÕÆ°¸Îß²İÀ‚Ì’†g‚ğ•Ô‚·
-		return (*s_Instance);
+		return (*s_instance);
 	}
 private:
 	// ’†g‚ğíœ‚·‚é
@@ -28,7 +28,7 @@ private:
 
 	FILE* m_debugFp = nullptr;		// ‘‚«‚İ,“Ç‚İ‚İ—pÌ§²ÙÎß²İÀ°•Ï”
 
-	static std::unique_ptr< _DebugConOut,_DebugConOutDeleter > s_Instance;	// ¼İ¸ŞÙÄİ‚Å²İ½Àİ½‚·‚é•Ï”
+	static std::unique_ptr< _DebugConOut,_DebugConOutDeleter > s_instance;	// ¼İ¸ŞÙÄİ‚Å²İ½Àİ½‚·‚é•Ï”
 };
 #else
 #define TRACE(fmt, ...);

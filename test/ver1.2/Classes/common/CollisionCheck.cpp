@@ -17,7 +17,7 @@ bool CollisionCheck::operator()(cocos2d::Sprite& sprite, ActData& data)
 	vec2.y = layer->getLayerSize().height - vec2.y;
 	// 1‚Æ2‚Ì’†ŠÔ‚Ì“_
 	Vec2 center = { float((int)vec.x + (int)vec2.x) / 2, float((int)vec.y + (int)vec2.y) / 2 };
-	// GID‚ÌÁª¯¸§ŒÀ
+	// GID‚ÌÁª¯¸‚ğ§ŒÀ
 	auto Restriction = [&](Vec2 pos ,Size size) 
 	{
 		if (pos.x < size.width && pos.x >= 0 && pos.y < size.height &&  pos.y >= 0)

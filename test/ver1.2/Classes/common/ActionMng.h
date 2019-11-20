@@ -4,7 +4,8 @@
 
 USING_NS_CC;
 
-enum class ACTID	// ±¸¼®İ‚ÌID
+// ±¸¼®İ‚ÌID
+enum class ACT_ID
 {
 	IDLE,		// ‘Ò‹@’†
 	RUN,		// ‘–s’†
@@ -21,9 +22,9 @@ using actFunc = std::function<bool(cocos2d::Sprite&,ActData&)>;
 
 struct ActData	// ±¸¼®İŠi”[—p\‘¢‘Ì
 {
-	ACTID actID;	
-	std::list<ACTID>whiteList;		// “®ì‚µ‚Ä‚¢‚¢±¸¼®İ‚ğŠi”[‚·‚éØ½Ä
-	std::list<ACTID>blackList;		// “®ì‚µ‚Ä‚Í‚¢‚¯‚È‚¢±¸¼®İ‚ğŠi”[‚·‚éØ½Ä
+	ACT_ID actID;	
+	std::list<ACT_ID>whiteList;		// “®ì‚µ‚Ä‚¢‚¢±¸¼®İ‚ğŠi”[‚·‚éØ½Ä
+	std::list<ACT_ID>blackList;		// “®ì‚µ‚Ä‚Í‚¢‚¯‚È‚¢±¸¼®İ‚ğŠi”[‚·‚éØ½Ä
 	std::list<actFunc>checkModule;	// Ó¼Ş­°Ù‚ğŠi”[‚·‚éØ½Ä
 	actFunc runAct;					// ÀÛ‚É“®ì‚·‚é±¸¼®İ
 	DIR dir;						// •ûŒü‚Ìî•ñ
@@ -40,11 +41,10 @@ public:
 	
 	void AddAct(std::string actName,ActData& data);	// ±¸¼®İÃŞ°À‚Ì’Ç‰Á
 	void ActRun();									// ±¸¼®İÃŞ°À‚ğˆ—‚·‚éŠÖ”
-	void AnimUpdata(ACTID id,std::string move);		// ±ÆÒ°¼®İ‚Ì±¯ÌßÃŞ°Ä
-	ACTID GetActID() { return m_actID; };
+	ACT_ID GetActID() { return m_actID; };			// Às‚³‚ê‚Ä‚¢‚é±¸¼®İ‚ÌID‚ğæ“¾
 private:
 	std::map<std::string, ActData> m_actData;		// ±¸¼®İƒf[ƒ^
 	cocos2d::Sprite* m_sprite;						// ±¸¼®İ‚³‚¹‚é½Ìß×²Ä‚Ìî•ñ
-	ACTID m_actID;
+	ACT_ID m_actID;									// Às‚³‚ê‚Ä‚¢‚é±¸¼®İ‚ÌID
 };
 

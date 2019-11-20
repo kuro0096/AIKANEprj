@@ -1,7 +1,7 @@
 #ifdef  _DEBUG
 #include "_DebugConOut.h"
 
-std::unique_ptr< _DebugConOut, _DebugConOut::_DebugConOutDeleter > _DebugConOut::s_Instance(new _DebugConOut);	// ∙о░■┌л╡щ╫ющ╫
+std::unique_ptr< _DebugConOut, _DebugConOut::_DebugConOutDeleter > _DebugConOut::s_instance(new _DebugConOut);	// ∙о░■┌л╡щ╫ющ╫
 
 _DebugConOut::_DebugConOut()
 {

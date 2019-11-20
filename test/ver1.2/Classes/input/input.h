@@ -1,14 +1,16 @@
 #pragma once
 #include "cocos2d.h"
 
-enum class INPUT_TYPE	// ‚Ç‚Ì“ü—Í‚©
+// ‚Ç‚Ì“ü—Í‚©
+enum class INPUT_TYPE
 {
 	KEY,	// ·°
 	TOUCH,	// À¯Á
 	MAX
 };
 
-enum class INPUT_STATE	// ‰Ÿ‚³‚ê‚Ä‚¢‚é‚©,—£‚³‚ê‚Ä‚¢‚é‚©
+// ‰Ÿ‚³‚ê‚Ä‚¢‚é‚©,—£‚³‚ê‚Ä‚¢‚é‚©
+enum class INPUT_STATE
 {
 	OFF,		// —£‚³‚ê‚Ä‚¢‚é
 	OFF_MON,	// —£‚³‚ê‚½uŠÔ
@@ -17,7 +19,8 @@ enum class INPUT_STATE	// ‰Ÿ‚³‚ê‚Ä‚¢‚é‚©,—£‚³‚ê‚Ä‚¢‚é‚©
 	MAX
 };
 
-enum class INPUT_TRG	// “ü—Íó‘Ô
+// “ü—Íó‘Ô
+enum class INPUT_TRG
 {
 	NOW,	// “ü—Í’†ó‘Ô
 	OLD,	// “ü—Í‚³‚ê‚Ä‚¢‚È‚¢ó‘Ô
@@ -25,7 +28,8 @@ enum class INPUT_TRG	// “ü—Íó‘Ô
 	MAX
 };
 
-enum class DIR			// Œü‚¢‚Ä‚¢‚é•ûŒü
+// Œü‚¢‚Ä‚¢‚é•ûŒü
+enum class DIR
 {
 	NON,	// “ü—Í–³‚µ
 	LEFT,	// ¶

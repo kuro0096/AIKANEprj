@@ -2,7 +2,7 @@
 
 USING_NS_CC;
 
-AnimMng* AnimMng::s_Instance = nullptr; // ±ÄŞÚ½‚Ì‰Šú‰»
+AnimMng* AnimMng::s_instance = nullptr; // ±ÄŞÚ½‚Ì‰Šú‰»
 
 AnimMng::AnimMng()
 {
