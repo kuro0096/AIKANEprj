@@ -39,12 +39,13 @@ public:
 	ActionMng(cocos2d::Sprite* sp);
 	~ActionMng();
 	
-	void AddAct(std::string actName,ActData& data);	// ｱｸｼｮﾝﾃﾞｰﾀの追加
-	void ActRun();									// ｱｸｼｮﾝﾃﾞｰﾀを処理する関数
-	ACT_ID GetActID() { return m_actID; };			// 実行されているｱｸｼｮﾝのIDを取得
+	void AddAct(std::string actName,ActData& data);		// ｱｸｼｮﾝﾃﾞｰﾀの追加
+	void ActRun();										// ｱｸｼｮﾝﾃﾞｰﾀを処理する関数
+	ACT_ID GetActID() { return m_actID; };				// 実行されているｱｸｼｮﾝのIDを取得
+	void SetActID(ACT_ID actID) { m_actID = actID; }	// ｱｸｼｮﾝのIDを設定
 private:
-	std::map<std::string, ActData> m_actData;		// ｱｸｼｮﾝデータ
-	cocos2d::Sprite* m_sprite;						// ｱｸｼｮﾝさせるｽﾌﾟﾗｲﾄの情報
-	ACT_ID m_actID;									// 実行されているｱｸｼｮﾝのID
+	std::map<std::string, ActData> m_actData;			// ｱｸｼｮﾝデータ
+	cocos2d::Sprite* m_sprite;							// ｱｸｼｮﾝさせるｽﾌﾟﾗｲﾄの情報
+	ACT_ID m_actID;										// 実行されているｱｸｼｮﾝのID
 };
 

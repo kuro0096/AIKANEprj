@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <cocos2d.h>
+#include "ActionMng.h"
 
 #define lpAnimMng AnimMng::GetInstance()
 
@@ -18,14 +19,15 @@ public:
 		return (*s_instance);
 	}
 
-	void AnimCacheInit(const std::string unit,const std::string actAnim,int cnt,float delay);		// ±ÆÒ°¼®İ‚Ì“o˜^(ÕÆ¯Ä–¼,±¸¼®İ–¼,±ÆÒ°¼®İ‚Ì–‡”,±ÆÒ°¼®İ‚ÌŠÔŠu)
-	bool ActAnim(cocos2d::Sprite* sprite,const std::string unit,const std::string str,bool repeat);	// •Û‘¶‚µ‚½±ÆÒ°¼®İ‚ğrunAction‚·‚é(sprite‚Ìî•ñ,•Û‘¶‚µ‚½–¼‘O,repeat‚·‚é‚©)
-	
+	// ±ÆÒ°¼®İ‚Ì“o˜^(ÕÆ¯Ä–¼,±¸¼®İ–¼,±ÆÒ°¼®İ‚Ì–‡”,±ÆÒ°¼®İ‚ÌŠÔŠu)
+	void AnimCacheInit(const std::string unit,const std::string actAnim,int cnt,float delay);
+	// •Û‘¶‚µ‚½±ÆÒ°¼®İ‚ğrunAction‚·‚é(sprite‚Ìî•ñ,•Û‘¶‚µ‚½–¼‘O,repeat‚·‚é‚©)
+	bool ActAnim(cocos2d::Sprite* sprite,const std::string unit,const std::string str,bool repeat);
 	~AnimMng();
 private:
 	AnimMng();
-	static AnimMng* s_instance;				// AnimMng‚Å²İ½Àİ½‚·‚é•Ï”
+	static AnimMng* s_instance;					// AnimMng‚Å²İ½Àİ½‚·‚é•Ï”
 
-	cocos2d::AnimationCache* m_animSave;	// ±ÆÒ°¼®İ‚ÌÃŞ°À•Û‘¶—p•Ï”
-	std::string m_anim;						// ‚Ç‚Ì±ÆÒ°¼®İ‚ªÀs‚³‚ê‚Ä‚¢‚é‚©•¶š—ñ‚Å•Û‘¶
+	cocos2d::AnimationCache* m_animSave;		// ±ÆÒ°¼®İ‚ÌÃŞ°À•Û‘¶—p•Ï”
+	std::string m_anim;							// ‚Ç‚Ì±ÆÒ°¼®İ‚ªÀs‚³‚ê‚Ä‚¢‚é‚©•¶š—ñ‚Å•Û‘¶
 };

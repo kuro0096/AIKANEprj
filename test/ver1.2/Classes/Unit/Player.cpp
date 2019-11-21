@@ -45,59 +45,67 @@ bool Player::Init()
 	// ±¸¼®ÝŠÇ——p•Ï”‰Šú‰»
 	m_actionMng = new ActionMng(this);
 
+	// ‘Ò‹@’†
+	{
+		ActData data;
+		data.actID = ACT_ID::IDLE;
+		data.dir = DIR::NON;
+		data.state = INPUT_STATE::ON;
+		data.colOffset = { Vec2(-24,-65) , Vec2(24,-65) };
+		m_actionMng->AddAct("Idle", data);
+	}
+
 	// ¶ˆÚ“®‚Ìî•ñ“o˜^
 	{
 		ActData data;
 		data.actID = ACT_ID::RUN;
 		data.dir = DIR::LEFT;
+		data.blackList.emplace_back(ACT_ID::JUMPING);
 		data.move = { -3 ,0 };
 		data.state = INPUT_STATE::ON;
 		data.colOffset = { Vec2(-24,35) , Vec2(-24,-65) };
-		m_actionMng->AddAct("¶ˆÚ“®", data);
+		m_actionMng->AddAct("Left", data);
 	}
 	// ‰EˆÚ“®‚Ìî•ñ“o˜^
 	{
 		ActData data;
 		data.actID = ACT_ID::RUN;
 		data.dir = DIR::RIGHT;
+		data.blackList.emplace_back(ACT_ID::JUMPING);
 		data.move = { 3 ,0 };
 		data.state = INPUT_STATE::ON;
 		data.colOffset = { Vec2(24,35) , Vec2(24,-65) };
-		m_actionMng->AddAct("‰EˆÚ“®", data);
+		m_actionMng->AddAct("Right", data);
 	}
 	// ¼Þ¬ÝÌßŠJŽnŽž‚Ì“o˜^
 	{
 		ActData data;
 		data.actID = ACT_ID::JUMP;
-		data.blackList.emplace_back(ACT_ID::RUN);
-		data.blackList.emplace_back(ACT_ID::JUMP);
 		data.dir = DIR::UP;
-		data.move = { 0 , 0.1f };
+		data.blackList.emplace_back(ACT_ID::JUMPING);
 		data.state = INPUT_STATE::ON_MON;
 		data.colOffset = { Vec2(-24,35) , Vec2(24,35) };
-		m_actionMng->AddAct("ƒWƒƒƒ“ƒvŠJŽn", data);
+		m_actionMng->AddAct("Jump", data);
 	}
 	// ¼Þ¬ÝÌß’†‚Ìî•ñ“o˜^
 	{
 		ActData data;
 		data.actID = ACT_ID::JUMPING;
-		data.blackList.emplace_back(ACT_ID::RUN);
-		data.blackList.emplace_back(ACT_ID::JUMP);
 		data.dir = DIR::UP;
+		data.blackList.emplace_back(ACT_ID::IDLE);
+		data.blackList.emplace_back(ACT_ID::RUN);
+		data.whiteList.emplace_back(ACT_ID::JUMP);
+		data.move = { 0 , 10.0f };
 		data.colOffset = { Vec2(-24,35) , Vec2(24,35) };
-		m_actionMng->AddAct("ƒWƒƒƒ“ƒv’†", data);
+		m_actionMng->AddAct("Jumping", data);
 	}
 	// —Ž‰º‚Ìî•ñ“o˜^
 	{
 		ActData data;
 		data.actID = ACT_ID::FALLING;
-		data.blackList.emplace_back(ACT_ID::JUMP);
-		data.blackList.emplace_back(ACT_ID::RUN);
-		data.dir = DIR::NON;
 		data.move = { 0 , -10 };
-		data.state = INPUT_STATE::ON;
 		data.colOffset = { Vec2(-24,-65) , Vec2(24,-65) };
-		m_actionMng->AddAct("—Ž‰º", data);
+		m_actionMng->AddAct("Fall", data);
 	}
 
 	// ±ÆÒ°¼®Ý‚Ì“o˜^
@@ -118,6 +126,8 @@ void Player::update(float dt)
 {
 	m_actionMng->ActRun();
 	m_actID = m_actionMng->GetActID();
+
+	TRACE("-%d\n", static_cast<int>(m_actID));
 
 	// ·°‚ª‰Ÿ‚³‚ê‚½uŠÔ‚É‚È‚Á‚½‚ç±ÆÒ°¼®ÝØ‚è‘Ö‚¦
 	if (m_input->GetState(DIR::LEFT) == INPUT_STATE::ON_MON)
