@@ -4,6 +4,6 @@
 
 struct MoveJump
 {
-	bool operator()(cocos2d::Sprite& sprite, ActData& data);	// ¼Ş¬İÌßˆ——pŠÖ”
+	bool operator()(cocos2d::Sprite& sprite, ActData& data);
 };
 

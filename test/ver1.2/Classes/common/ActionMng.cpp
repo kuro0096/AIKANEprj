@@ -15,6 +15,7 @@ ActionMng::~ActionMng()
 void ActionMng::AddAct(std::string actName,ActData& data)
 { 
 	// 名前によって登録するものを変える
+	// 待機状態
 	if (actName == "Idle")
 	{
 		m_actData.emplace(actName, std::move(data));
@@ -23,6 +24,7 @@ void ActionMng::AddAct(std::string actName,ActData& data)
 		m_actData[actName].checkModule.emplace_back(CollisionCheck());
 		m_actData[actName].runAct = IdleState();
 	}
+	// 左移動 || 右移動
 	if (actName == "Left" || actName == "Right")
 	{
 		m_actData.emplace(actName,std::move(data));
@@ -31,6 +33,7 @@ void ActionMng::AddAct(std::string actName,ActData& data)
 		m_actData[actName].checkModule.emplace_back(CollisionCheck());
 		m_actData[actName].runAct = MoveLR();
 	}
+	// ｼﾞｬﾝﾌﾟ開始時
 	if (actName == "Jump")
 	{
 		m_actData.emplace(actName, std::move(data));
@@ -38,6 +41,7 @@ void ActionMng::AddAct(std::string actName,ActData& data)
 		m_actData[actName].checkModule.emplace_back(CheckKey());
 		m_actData[actName].checkModule.emplace_back(CollisionCheck());
 	}
+	// ｼﾞｬﾝﾌﾟ中
 	if (actName == "Jumping")
 	{
 		m_actData.emplace(actName, std::move(data));
@@ -45,6 +49,7 @@ void ActionMng::AddAct(std::string actName,ActData& data)
 		m_actData[actName].checkModule.emplace_back(CollisionCheck());
 		m_actData[actName].runAct = MoveJump();
 	}
+	// 落下
 	if (actName == "Fall")
 	{
 		m_actData.emplace(actName, std::move(data));
@@ -57,23 +62,29 @@ void ActionMng::AddAct(std::string actName,ActData& data)
 // ｱｸｼｮﾝﾃﾞｰﾀを処理する関数
 void ActionMng::ActRun()
 {
-	auto checkModule = [&](std::pair<std::string, ActData> data)
+	// ﾁｪｯｸﾓｼﾞｭｰﾙの中身を確認
+	auto CheckModule = [&](std::pair<std::string, ActData> data)
 	{
 		for (auto check : data.second.checkModule)
 		{
+			// 実行不可だったらfalse
 			if (!check(*m_sprite, data.second))
 			{
 				return false;
 			}
 		}
+		// 実行可能だったらtrueを返す
 		return true;
 	};
 
 	for (auto data : m_actData)
 	{
-		if (checkModule(data))
+		// ﾁｪｯｸﾓｼﾞｭｰﾙを確認
+		if (CheckModule(data))
 		{
 			m_actID = data.second.actID;
+			m_actDir = data.second.dir;
+			// 実行するｱｸｼｮﾝ情報が入っていたらｱｸｼｮﾝを実行
 			if(data.second.runAct != nullptr)
 			{ 
 				data.second.runAct(*m_sprite, data.second);

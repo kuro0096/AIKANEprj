@@ -27,6 +27,7 @@ bool CollisionCheck::operator()(cocos2d::Sprite& sprite, ActData& data)
 		return false;
 	};
 	// 3“_‚Å“–‚½‚è”»’è‚Ìˆ—
+	// GID‚ÌÁª¯¸‚ð‚µ‚Ä‚¢‚¢”ÍˆÍ‚¾‚Á‚½‚ç
 	// “_‚ÆÚ²Ô°‚ª“–‚½‚Á‚Ä‚¢‚½‚çfalse‚ð“–‚½‚Á‚Ä‚¢‚È‚©‚Á‚½‚çtrue‚ð•Ô‚·
 	if (Restriction(center,layer->getLayerSize()) && Restriction(vec,layer->getLayerSize()) && Restriction(vec2,layer->getLayerSize()))
 	{

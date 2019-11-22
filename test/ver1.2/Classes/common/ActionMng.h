@@ -11,8 +11,7 @@ enum class ACT_ID
 	RUN,		// 走行中
 	JUMP,		// ｼﾞｬﾝﾌﾟ開始
 	JUMPING,	// ｼﾞｬﾝﾌﾟ中
-	FALL,		// 落下開始
-	FALLING,	// 落下中
+	FALL,		// 落下
 	MAX
 };
 
@@ -43,9 +42,11 @@ public:
 	void ActRun();										// ｱｸｼｮﾝﾃﾞｰﾀを処理する関数
 	ACT_ID GetActID() { return m_actID; };				// 実行されているｱｸｼｮﾝのIDを取得
 	void SetActID(ACT_ID actID) { m_actID = actID; }	// ｱｸｼｮﾝのIDを設定
+	DIR GetActDir() { return m_actDir; };				// 向いている方向を取得
 private:
 	std::map<std::string, ActData> m_actData;			// ｱｸｼｮﾝデータ
 	cocos2d::Sprite* m_sprite;							// ｱｸｼｮﾝさせるｽﾌﾟﾗｲﾄの情報
 	ACT_ID m_actID;										// 実行されているｱｸｼｮﾝのID
+	DIR m_actDir;										// 向いている方向										
 };
 

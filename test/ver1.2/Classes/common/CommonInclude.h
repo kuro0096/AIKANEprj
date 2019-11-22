@@ -6,3 +6,4 @@
 #include "MoveLR.h"
 #include "MoveJump.h"
 #include "Gravity.h"
+#include "Unit/Player.h"

@@ -51,12 +51,8 @@ struct input : public cocos2d::Node
 	INPUT_STATE GetState(const DIR dir) {
 		return m_inputState[dir];	// “ü—Í‚Ìó‘Ô‚ğ•Ô‚·
 	}
-	const bool GetDir(const size_t& n) {
-		return m_dirFlag[n];		// •ûŒüÌ×¸Ş‚Ìó‘Ô‚ğ•Ô‚·
-	}
 protected:
 	std::map<DIR,INPUT_STATE> m_inputState;			// “ü—Íó‘Ô
-	bool m_dirFlag[static_cast<size_t>(DIR::MAX)];	// •ûŒü–ˆ‚Ì“ü—Íî•ñ
 };
 
 // ”ÍˆÍfor•ª—p’è‹`

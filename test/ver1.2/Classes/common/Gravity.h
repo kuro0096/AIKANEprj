@@ -7,9 +7,5 @@ constexpr float framePerSecond = 0.5f;
 struct Gravity
 {
 	// d—Íˆ——pŠÖ”
-	bool operator()(cocos2d::Sprite& sprite, ActData& data)
-	{
-		sprite.setPositionY(sprite.getPositionY() + (data.move.y * framePerSecond));
-		return true;
-	};
+	bool operator()(cocos2d::Sprite& sprite, ActData& data);
 };

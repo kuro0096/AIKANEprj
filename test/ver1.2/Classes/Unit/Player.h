@@ -11,9 +11,11 @@ public:
 	static Player* createPlayer();	
 	Player();
 	~Player();
-	void update(float dt);					// 情報更新
-	input* getInput() { return m_input; };	// ｲﾝﾌﾟｯﾄの情報を取得
-	ACT_ID getActID() { return m_actID; };	// ｱｸｼｮﾝのIDを取得
+	void update(float dt);								// 情報更新
+	input* getInput() { return m_input; };				// ｲﾝﾌﾟｯﾄの情報を取得
+	ACT_ID getActID() { return m_actID; };				// ｱｸｼｮﾝのIDを取得
+	void setActID(ACT_ID actID) { m_actID = actID; };	// ｱｸｼｮﾝのIDを設定
+	int GetCnt() { return m_jumpCnt; };					// ｼﾞｬﾝﾌﾟの経過時間を渡す
 private:
 	bool Init();							// 変数やｱﾆﾒｰｼｮﾝの初期化
 	
@@ -23,7 +25,8 @@ private:
 	ACT_ID m_actID;							// ﾌﾟﾚｲﾔｰが行っているｱｸｼｮﾝのID
 
 	bool m_jumpFlag;						// ｼﾞｬﾝﾌﾟ用ﾌﾗｸﾞ
-	bool m_reverse;							// ｱﾆﾒｰｼｮﾝを反転するかしないか
+	int m_jumpCnt;
+	float m_jumpSpeed;
 
 	CREATE_FUNC(Player);
 };
