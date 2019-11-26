@@ -83,7 +83,7 @@ void RayTracing(const Position3& eye,const Sphere& sphere) {
 				// そしてその法線ベクトルと「逆」ライトベクトルとの
 				// 内積を取りそれを明るさとする。ただしcosθ
 				// 拡散反射光(ディフューズ)
-				auto light = Dot(N, -lightVec);
+				auto diff = Dot(N, -lightVec);
 				// 鏡面反射光(スペキュラ)
 				auto refLightVec = RefrectVector(lightVec,N);
 				// 偶数だとcosのマイナス部がなくなるので奇数を乗算する
@@ -92,8 +92,60 @@ void RayTracing(const Position3& eye,const Sphere& sphere) {
 				// 値のルールに合わせよう。
 				// 環境光(アンビエント)
 				auto ambient = 0.15f;
-				b *= Clamp(max(light + sp , ambient));
-				DrawPixel(x, y, GetColor(b, b, b));
+
+				struct Color{
+					unsigned char r;
+					unsigned char g;
+					unsigned char b;
+					Color() : r(0), g(0), b(0) {}
+					Color(unsigned char inr, unsigned char ing, unsigned char inb)
+						: r(inr),g(ing),b(inb){}
+					Color operator*(float scale) {
+						Color ret(r,g,b);
+						ret.r *= scale;
+						ret.g *= scale;
+						ret.b *= scale;
+						return ret;
+					}
+					void operator*=(float scale) {
+						r *= scale;
+						g *= scale;
+						b *= scale;
+					}
+					Color operator+(const Color& col) {
+						Color ret(r, g, b);
+						ret.r = Clamp(r + col.r, 0, 255);
+						ret.g = Clamp(g + col.g, 0, 255);
+						ret.b = Clamp(b + col.b, 0, 255);
+						return ret;
+					}
+					void operator+=(const Color& col) {
+						r = Clamp(r + col.r, 0, 255);
+						g = Clamp(g + col.g, 0, 255);
+						b = Clamp(b + col.b, 0, 255);
+					}
+				};
+
+				Color difCol(255, 0, 0);
+				Color specCol(255, 255, 255);
+				Color ambCol(32, 32, 32);
+
+				difCol *= Clamp(diff);
+				specCol *= Clamp(sp);
+
+				Color col = difCol + specCol;
+				col.r = max(col.r, ambCol.r);
+				col.g = max(col.g, ambCol.g);
+				col.b = max(col.b, ambCol.b);
+
+				b *= Clamp(max(diff + sp , ambient));
+				DrawPixel(x, y, GetColor(col.r, col.g, col.b));
+			}
+			else {
+				Vector3 planeVec(0, 1, 0);
+			/*	if () {
+					DrawPixel(x, y, GetColor(255, 255, 255));
+				}*/
 			}
 		}
 	}
