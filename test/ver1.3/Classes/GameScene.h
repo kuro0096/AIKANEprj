@@ -18,6 +18,7 @@ enum class Z_ORDER	// sprite‚Ì•`‰æ‡
 class GameScene : public cocos2d::Scene
 {
 public:
+	~GameScene();
 	static cocos2d::Scene* createScene();
 	
 	virtual bool init();    // ‰Šú‰»ŠÖ”
@@ -28,8 +29,6 @@ private:
 	void update(float dt);	// î•ñXV
 
 	input* m_input;			// ·°‚Ì“ü—Íî•ñ
-
-	std::unique_ptr<efk::EffectManager> m_effMng = nullptr;
 
 	void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags);
 

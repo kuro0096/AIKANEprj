@@ -29,12 +29,23 @@
 #include "SimpleAudioEngine.h"
 #include "input/inputKey.h"
 #include "input/inputTouch.h"
+#include "common/SoundMng.h"
+#include "common/EffekseerMng.h"
+#include "ck/bank.h"
+#include "ck/ck.h"
+#include "ck/config.h"
+#include "ck/sound.h"
 
 USING_NS_CC;
 
 Scene* GameScene::createScene()
 {
 	return GameScene::create();
+}
+
+GameScene::~GameScene()
+{
+	
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -123,16 +134,11 @@ bool GameScene::init()
 	bg_Front->setName("BG_FRONT");
 	this->addChild(bg_Front, static_cast<int>(Z_ORDER::BG_FRONT));
 
-	m_effMng.reset(efk::EffectManager::create(Director::getInstance()->getVisibleSize()));
-	auto effect = efk::Effect::create("Effect/Laser01.efk");
+	lpEffekseerMng.EffekseerInit(EFF_ID::JUMP, "Laser");
+	efk::EffectEmitter* effect = lpEffekseerMng.PlayEffect(EFF_ID::JUMP, Vec2(300, 300), 20);
+	this->addChild(effect, static_cast<int>(Z_ORDER::MAX));
 
-	auto emitter = efk::EffectEmitter::create(m_effMng.get());
-	emitter->setEffect(effect);
-	emitter->setPlayOnEnter(true);
-
-	emitter->setPosition(Vec2(300, 300));
-	emitter->setScale(20);
-	this->addChild(emitter, static_cast<int>(Z_ORDER::MAX));
+	lpSoundMng.SoundStreaming("", SOUND_TYPE::BGM);
 
 	this->scheduleUpdate();
 
@@ -158,12 +164,12 @@ void GameScene::menuCloseCallback(Ref* pSender)
 // î•ñXV
 void GameScene::update(float dt)
 {
-	(*m_effMng).update();
+	(*lpEffekseerMng.GetEffMng()).update();
 }
 
 void GameScene::visit(cocos2d::Renderer * renderer, const cocos2d::Mat4 & parentTransform, uint32_t parentFlags)
 {
-	(*m_effMng).begin(renderer, _globalZOrder);
+	(*lpEffekseerMng.GetEffMng()).begin(renderer, _globalZOrder);
 	cocos2d::Scene::visit(renderer, parentTransform, parentFlags);
-	(*m_effMng).end(renderer, _globalZOrder);
+	(*lpEffekseerMng.GetEffMng()).end(renderer, _globalZOrder);
 }

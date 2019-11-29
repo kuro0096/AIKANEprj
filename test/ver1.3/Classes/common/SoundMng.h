@@ -26,14 +26,18 @@ public:
 		}
 		return (*s_instance);
 	}
-	bool SERecord(const char* name);			// »³İÄŞî•ñ“o˜^—pŠÖ”
-	void SoundStreaming(const char* execution, const SOUND_TYPE type);	// 
+	// »³İÄŞî•ñ“o˜^—pŠÖ”
+	bool SERecord(const char* name);
+	// »³İÄŞ‚ğÄ¶‚·‚é‚½‚ß‚ÌŠÖ”(»³İÄŞ‚Ì–¼‘O,BGM‚©SE‚©)
+	void SoundStreaming(const char* name, const SOUND_TYPE type);
+	// »³İÄŞ‚ğ~‚ß‚é‚½‚ß‚ÌŠÖ”
+	void StopStreaming();
 	~SoundMng();
 private:
 	SoundMng();
-	static SoundMng* s_instance;					// AnimMng‚Å²İ½Àİ½‚·‚é•Ï”
+	static SoundMng* s_instance;	// SoundMng‚Å²İ½Àİ½‚·‚é•Ï”
 
-	CkBank* m_bank;
-	CkSound* m_sound;
+	CkBank* m_bank;					// SEî•ñ‚ğÛ°ÄŞ‚·‚é‚½‚ß‚Ì•Ï”
+	CkSound* m_sound;				// »³İÄŞ‚ğÄ¶‚·‚é‚½‚ß‚Ì•Ï”	
 };
 

@@ -3,6 +3,7 @@
 #include "_Debug/_DebugConOut.h"
 #include "common/AnimMng.h"
 #include "common/SoundMng.h"
+#include "common/EffekseerMng.h"
 #include "input/inputKey.h"
 #include "input/inputTouch.h"
 #include "ck/bank.h"
@@ -43,7 +44,6 @@ bool Player::Init()
 	// ‰ŠúÀ•W
 	this->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + this->getContentSize().height + 20));
 	// •Ï”‰Šú‰»
-	m_jumpFlag = false;
 	m_jumpSpeed = 5.0f;
 	m_actID = ACT_ID::IDLE;
 

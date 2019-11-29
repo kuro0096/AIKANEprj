@@ -92,13 +92,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
         director->setOpenGLView(glview);
     }
 
+	// »³ÝÄÞ(Cricket Audio)‚ÌXV—p
 	CkConfig config;
 	CkInit(&config);
 	auto schedule = Director::getInstance()->getScheduler();
 	schedule->schedule([](float f) {
 		CkUpdate();
 	}, this, 0.016, CC_REPEAT_FOREVER, 0.0, false, "sounds");
-
 
     // turn on display FPS
     director->setDisplayStats(true);

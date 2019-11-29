@@ -24,9 +24,8 @@ private:
 	ActionMng* m_actionMng;					// ±¸¼®İŠÇ——p•Ï”
 	ACT_ID m_actID;							// ÌßÚ²Ô°‚ªs‚Á‚Ä‚¢‚é±¸¼®İ‚ÌID
 
-	bool m_jumpFlag;						// ¼Ş¬İÌß—pÌ×¸Ş
-	int m_jumpCnt;
-	float m_jumpSpeed;
+	int m_jumpCnt;							// ¼Ş¬İÌß‚Ì•b”
+	float m_jumpSpeed;						// ¼Ş¬İÌß‚ÌˆÚ“®—Ê
 
 	CREATE_FUNC(Player);
 };
