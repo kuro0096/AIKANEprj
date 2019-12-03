@@ -1,5 +1,5 @@
 #pragma once
-
+#include<DxLib.h>
 
 //サイズを表す構造体
 struct Size {
@@ -134,3 +134,53 @@ struct Rect {
 	void Draw(Vector2& offset);//自分の矩形を描画する(オフセット付き)
 };
 
+// クランプ(値を特定の範囲内に収める)
+float Clamp(float val, float minval = 0.0f, float maxval = 1.0f);
+
+// 色の構造体
+struct Color {
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
+	Color() : r(0), g(0), b(0) {}
+	Color(unsigned char inr, unsigned char ing, unsigned char inb)
+		: r(inr), g(ing), b(inb) {}
+	Color operator*(float scale) {
+		Color ret(r, g, b);
+		ret.r *= scale;
+		ret.g *= scale;
+		ret.b *= scale;
+		return ret;
+	}
+	void operator*=(float scale) {
+		r *= scale;
+		g *= scale;
+		b *= scale;
+	}
+	Color operator+(const Color& col) {
+		Color ret(r, g, b);
+		ret.r = Clamp(r + col.r, 0, 255);
+		ret.g = Clamp(g + col.g, 0, 255);
+		ret.b = Clamp(b + col.b, 0, 255);
+		return ret;
+	}
+	void operator+=(const Color& col) {
+		r = Clamp(r + col.r, 0, 255);
+		g = Clamp(g + col.g, 0, 255);
+		b = Clamp(b + col.b, 0, 255);
+	}
+
+	unsigned int GetColor()const {
+		return DxLib::GetColor(r, g, b);
+	}
+};
+
+// 床の構造体
+struct Plane {
+	Vector3 normal;	// 法線(a,b,c)←必ず正規化されていること
+	float offset;	// 原点からのｵﾌｾｯﾄ(d)
+	Plane(const Vector3& inNormal, float inOffset) :
+		normal(inNormal), offset(inOffset) {
+		normal.Normalize();
+	}
+};

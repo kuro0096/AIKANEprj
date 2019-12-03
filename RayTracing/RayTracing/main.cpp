@@ -1,30 +1,18 @@
 #include<dxlib.h>
 #include<math.h>
 #include"Geometry.h"
+
 const int screen_width = 640;
 const int screen_height = 480;
 
-//ヒントになると思って、色々と関数を用意しておりますが
-//別にこの関数を使わなければいけないわけでも、これに沿わなければいけないわけでも
-//ありません。レイトレーシングができていれば構いません。
-
-
-// クランプ...つまり、値を特定の範囲内に収める
-float Clamp(float val, float minval = 0.0f, float maxval = 1.0f) {
-	return max(min(maxval, val), minval);
-}
-
-///レイ(光線)と球体の当たり判定
-///@param ray (視点からスクリーンピクセルへのベクトル)
-///@param sphere 球
-///@param distance 交点までの距離
-///@hint レイは正規化しといたほうが使いやすいだろう
+// レイ(光線)と球体の当たり判定(視点からスクリーンピクセルへのベクトル,球,交点までの距離)
+// rayは正規化
 bool IsHitRayAndObject(const Position3& eye,const Vector3& ray,const Sphere& sp, float& distance) {
 	//レイが正規化済みである前提で…
 	//
-	//視点から球体中心へのベクトル(視線)を作ります
+	//視点から球体中心へのベクトル(視線)を作る
 	//中心から視線への内積をとります＝＞ベクトル長
-	//視線ベクトルとベクトル長をかけて、中心からの垂線下した点を求めます
+	//視線ベクトルとベクトル長をかけて、中心からの垂線下した点を求める
 	auto vec = sp.pos - eye; // ベクトル(視線)
 	float pLen = (Dot(vec, ray)); // 射影長
 	Vector3 Pos = ray * pLen; // 視線ベクトルとベクトル長をかけ
@@ -34,7 +22,6 @@ bool IsHitRayAndObject(const Position3& eye,const Vector3& ray,const Sphere& sp,
 	if (vLen <= sp.radius)
 	{
 		// ここに来た時点で当たっている
-		// なので
 		// ①まず射影長から√(半径^2-垂線長^2を引く)
 		auto newdistance = pLen - sqrt(pow(sp.radius,2.0) - pow(vLen, 2.0));
 		// それをdistanceに代入
@@ -47,29 +34,40 @@ bool IsHitRayAndObject(const Position3& eye,const Vector3& ray,const Sphere& sp,
 	}
 }
 
-// 反射ベクトルを返す
-// param inVec 入射ベクトル
-// param nvec 法線ベクトル(正規化済み)
-// retval 反射ベクトル
+// 反射ベクトルを返す(入射ベクトル,法線ベクトル(正規化済み))
 Vector3
 RefrectVector(const Vector3& inVec, const Vector3& nVec) {
 	// R = I-2N(I・N)を返す
 	return inVec -nVec * 2 * Dot(inVec, nVec);
 }
 
-///レイトレーシング
-///@param eye 視点座標
-///@param sphere 球オブジェクト(そのうち複数にする)
+// 床を生成(市松模様)
+Color GetCheckerColorFromPos(Vector3 &clossVec)
+{
+	if ((clossVec.x < 0 && ((int)clossVec.x / 10 + (int)clossVec.z / 10) % 2 == 0)
+		|| (clossVec.x >= 0 && abs((int)clossVec.x / 10 + (int)clossVec.z / 10) % 2 == 1))
+	{
+		return Color(128,128,128);
+	}
+	else
+	{
+		return Color(255, 255, 255);
+	}
+}
+
+// レイトレーシング(視点座標,球オブジェクト(そのうち複数にする))
 void RayTracing(const Position3& eye,const Sphere& sphere) {
 	Vector3 lightVec(1, -1, -1);
 	lightVec.Normalize();
+	Plane plane = Plane(Vector3(0, 1, 0), -100);
+
 	for (int y = 0; y < screen_height; ++y) {//スクリーン縦方向
 		for (int x = 0; x < screen_width; ++x) {//スクリーン横方向
 			//①視点とスクリーン座標から視線ベクトルを作る
 			Vector3 P(x - screen_width /2,screen_height /2 - y,0);
 			Vector3 ray(P - eye);
 			float distance = 0.0f;
-			//②正規化しとく
+			//②正規化する
 			ray.Normalize();
 			//③IsHitRay関数がTrueだったら白く塗りつぶす
 			//※塗りつぶしはDrawPixelという関数を使う。
@@ -80,6 +78,24 @@ void RayTracing(const Position3& eye,const Sphere& sphere) {
 				// もとに法線ベクトルを作る
 				auto N = ray * distance - (sphere.pos - eye);
 				N.Normalize();
+
+				// 一旦この球体は完全反射として考える
+				// ①反射ベクトルを求める(法線と入射ベクトル(視線)から)
+				// ②反射ベクトルと交点から次のレイを飛ばす
+				// ③このレイが床との交点を持つならばその座標を求める
+				// ④③で得た交点の座標から色分けしてその色を現在の色としてDrawPixelする
+				auto refVec = RefrectVector(N, ray);
+				Vector3 refRay = eye + ray * distance;
+				// 平面から視点までの距離
+				auto pVec1 = Dot(eye, plane.normal) - plane.offset;
+				// 1回あたりの移動距離
+				auto dVec1 = Dot(-refRay, plane.normal);
+				// 座標を求めるために使う
+				auto t = pVec1 / dVec1;
+				// tをもとに座標を求める
+				Vector3 clossVec1 = eye + ray * t;
+				auto color1 = GetCheckerColorFromPos(clossVec1);
+
 				// そしてその法線ベクトルと「逆」ライトベクトルとの
 				// 内積を取りそれを明るさとする。ただしcosθ
 				// 拡散反射光(ディフューズ)
@@ -93,39 +109,7 @@ void RayTracing(const Position3& eye,const Sphere& sphere) {
 				// 環境光(アンビエント)
 				auto ambient = 0.15f;
 
-				struct Color{
-					unsigned char r;
-					unsigned char g;
-					unsigned char b;
-					Color() : r(0), g(0), b(0) {}
-					Color(unsigned char inr, unsigned char ing, unsigned char inb)
-						: r(inr),g(ing),b(inb){}
-					Color operator*(float scale) {
-						Color ret(r,g,b);
-						ret.r *= scale;
-						ret.g *= scale;
-						ret.b *= scale;
-						return ret;
-					}
-					void operator*=(float scale) {
-						r *= scale;
-						g *= scale;
-						b *= scale;
-					}
-					Color operator+(const Color& col) {
-						Color ret(r, g, b);
-						ret.r = Clamp(r + col.r, 0, 255);
-						ret.g = Clamp(g + col.g, 0, 255);
-						ret.b = Clamp(b + col.b, 0, 255);
-						return ret;
-					}
-					void operator+=(const Color& col) {
-						r = Clamp(r + col.r, 0, 255);
-						g = Clamp(g + col.g, 0, 255);
-						b = Clamp(b + col.b, 0, 255);
-					}
-				};
-
+				// 色の初期値を設定
 				Color difCol(255, 0, 0);
 				Color specCol(255, 255, 255);
 				Color ambCol(32, 32, 32);
@@ -139,13 +123,23 @@ void RayTracing(const Position3& eye,const Sphere& sphere) {
 				col.b = max(col.b, ambCol.b);
 
 				b *= Clamp(max(diff + sp , ambient));
-				DrawPixel(x, y, GetColor(col.r, col.g, col.b));
+				DrawPixel(x, y, color1.GetColor());
 			}
 			else {
-				Vector3 planeVec(0, 1, 0);
-			/*	if () {
-					DrawPixel(x, y, GetColor(255, 255, 255));
-				}*/
+				// 平面から視点までの距離
+				auto pVec = Dot(eye, plane.normal) - plane.offset;
+				// 1回あたりの移動距離
+				auto dVec = Dot(-ray,plane.normal);
+				// 座標を求めるために使う
+				auto t = pVec / dVec;
+				// tをもとに座標を求める
+				Vector3 clossVec = eye + ray * t;
+				
+				if (dVec >= 0)
+				{
+					auto color = GetCheckerColorFromPos(clossVec);
+					DrawPixel(x,y,color.GetColor());
+				}
 			}
 		}
 	}
@@ -157,10 +151,10 @@ int main() {
 	SetMainWindowText(_T("1816223_千々波光祐"));
 	DxLib_Init();
 
-	// ｽｸﾘｰﾝはZ=0の位置にあるとします
+	// スクリーンはZ=0の位置
 	// 第一引数が視点座標(0, 0, 300)
 	// 第二引数球体の情報(半径100の中心(0, 0, -100))
-	/*DrawBox(0, 0, 640, 480, GetColor(0,0,128),true);*/
+	DrawBox(0, 0, 640, 480, GetColor(0,128,128),true);
 	auto sp = Sphere(100, Position3(0, 0, -100));
 	RayTracing(Vector3(0, 0, 300), sp);
 

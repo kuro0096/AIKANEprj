@@ -1,7 +1,5 @@
 #include"Geometry.h"
-#include<DxLib.h>
 #include<cmath>
-
 
 void
 Rect::Draw() {
@@ -169,4 +167,9 @@ Vector3::operator-=(const Vector3& v) {
 	x -= v.x;
 	y -= v.y;
 	z -= v.z;
+}
+
+float 
+Clamp(float val, float minval, float maxval) {
+	return max(min(maxval, val), minval);
 }
