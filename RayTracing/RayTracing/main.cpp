@@ -44,8 +44,8 @@ RefrectVector(const Vector3& inVec, const Vector3& nVec) {
 // 床を生成(市松模様)
 Color GetCheckerColorFromPos(Vector3 &clossVec)
 {
-	if ((clossVec.x < 0 && ((int)clossVec.x / 10 + (int)clossVec.z / 10) % 2 == 0)
-		|| (clossVec.x >= 0 && abs((int)clossVec.x / 10 + (int)clossVec.z / 10) % 2 == 1))
+	if ((clossVec.x < 0 && ((int)clossVec.x / 20 + (int)clossVec.z / 20) % 2 == 0)
+		|| (clossVec.x >= 0 && abs((int)clossVec.x / 20 + (int)clossVec.z / 20) % 2 == 1))
 	{
 		return Color(128,128,128);
 	}
@@ -59,7 +59,7 @@ Color GetCheckerColorFromPos(Vector3 &clossVec)
 void RayTracing(const Position3& eye,const Sphere& sphere) {
 	Vector3 lightVec(1, -1, -1);
 	lightVec.Normalize();
-	Plane plane = Plane(Vector3(0, 1, 0), -100);
+	Plane plane = Plane(Vector3(0, 1, 0), -30);
 
 	for (int y = 0; y < screen_height; ++y) {//スクリーン縦方向
 		for (int x = 0; x < screen_width; ++x) {//スクリーン横方向
@@ -76,26 +76,29 @@ void RayTracing(const Position3& eye,const Sphere& sphere) {
 				int b = 255;
 				// まずdiatanceとrayと球体へのベクトルを
 				// もとに法線ベクトルを作る
-				auto N = ray * distance - (sphere.pos - eye);
-				N.Normalize();
-
 				// 一旦この球体は完全反射として考える
 				// ①反射ベクトルを求める(法線と入射ベクトル(視線)から)
 				// ②反射ベクトルと交点から次のレイを飛ばす
 				// ③このレイが床との交点を持つならばその座標を求める
 				// ④③で得た交点の座標から色分けしてその色を現在の色としてDrawPixelする
+				Vector3 hitPos = eye + ray * distance;	// 交点
+				auto N = hitPos - sphere.pos;
+				N.Normalize();
 				auto refVec = RefrectVector(N, ray);
-				Vector3 refRay = eye + ray * distance;
-				// 平面から視点までの距離
-				auto pVec1 = Dot(eye, plane.normal) - plane.offset;
-				// 1回あたりの移動距離
-				auto dVec1 = Dot(-refRay, plane.normal);
-				// 座標を求めるために使う
-				auto t = pVec1 / dVec1;
-				// tをもとに座標を求める
-				Vector3 clossVec1 = eye + ray * t;
-				auto color1 = GetCheckerColorFromPos(clossVec1);
 
+				auto hitRay = Dot(-refVec, plane.normal);
+
+				auto ooo = Dot(plane.normal, hitPos) - plane.offset;
+				auto t = (ooo) / hitRay;
+
+				auto c = hitPos + refVec * t;
+
+
+				//auto mag = plane.offset - hitPos.y / refVec.y;
+
+				//auto clossPos = refVec * mag + hitPos;
+
+//--------------------------------------------------------------------------
 				// そしてその法線ベクトルと「逆」ライトベクトルとの
 				// 内積を取りそれを明るさとする。ただしcosθ
 				// 拡散反射光(ディフューズ)
@@ -123,7 +126,15 @@ void RayTracing(const Position3& eye,const Sphere& sphere) {
 				col.b = max(col.b, ambCol.b);
 
 				b *= Clamp(max(diff + sp , ambient));
-				DrawPixel(x, y, color1.GetColor());
+				if (hitRay > 0)
+				{
+					auto color1 = GetCheckerColorFromPos(c);
+					DrawPixel(x, y, color1.GetColor());
+				}
+				else
+				{
+					DrawPixel(x, y,GetColor(col.r, col.g,col.b) );
+				}
 			}
 			else {
 				// 平面から視点までの距離
