@@ -1,0 +1,62 @@
+#pragma once
+#include "cocos2d.h"
+
+// どの入力か
+enum class INPUT_TYPE
+{
+	KEY,	// ｷｰ
+	TOUCH,	// ﾀｯﾁ
+	MAX
+};
+
+// 押されているか,離されているか
+enum class INPUT_STATE
+{
+	OFF,		// 離されている
+	OFF_MON,	// 離された瞬間
+	ON,			// 押されている
+	ON_MON,		// 押された瞬間
+	MAX
+};
+
+// 入力状態
+enum class INPUT_TRG
+{
+	NOW,	// 入力中状態
+	OLD,	// 入力されていない状態
+	INPUT,	// 一時的に格納
+	MAX
+};
+
+// 向いている方向
+enum class DIR
+{
+	NON,	// 入力無し
+	LEFT,	// 左
+	RIGHT,	// 右
+	DOWN,	// 下
+	UP,		// 上
+	MAX
+};
+
+using inputMap = std::map<DIR, INPUT_STATE>;
+
+struct input : public cocos2d::Node
+{
+	input();
+	~input();
+	virtual void Init(Node* node) = 0;
+	void PressingUpdate();			// ｷｰの情報を更新
+	virtual INPUT_TYPE GetType(void) = 0;
+	INPUT_STATE GetState(const DIR dir) {
+		return m_inputState[dir];	// 入力の状態を返す
+	}
+protected:
+	std::map<DIR,INPUT_STATE> m_inputState;			// 入力状態
+};
+
+// 範囲for分用定義
+DIR begin(DIR);				// 先頭
+DIR end(DIR);				// 終端
+DIR operator*(DIR key);		// ﾎﾟｲﾝﾀ
+DIR operator++(DIR& key);	// 加算
