@@ -38,7 +38,7 @@ bool IsHitRayAndObject(const Position3& eye,const Vector3& ray,const Sphere& sp,
 Vector3
 RefrectVector(const Vector3& inVec, const Vector3& nVec) {
 	// R = I-2N(I・N)を返す
-	return inVec -nVec * 2 * Dot(inVec, nVec);
+	return inVec -nVec * 2.0f * Dot(inVec, nVec);
 }
 
 // 床を生成(市松模様)
@@ -59,7 +59,7 @@ Color GetCheckerColorFromPos(Vector3 &clossVec)
 void RayTracing(const Position3& eye,const Sphere& sphere) {
 	Vector3 lightVec(1, -1, -1);
 	lightVec.Normalize();
-	Plane plane = Plane(Vector3(0, 1, 0), -30);
+	Plane plane = Plane(Vector3(0, 1, 0), -200);
 
 	for (int y = 0; y < screen_height; ++y) {//スクリーン縦方向
 		for (int x = 0; x < screen_width; ++x) {//スクリーン横方向
@@ -88,15 +88,10 @@ void RayTracing(const Position3& eye,const Sphere& sphere) {
 
 				auto hitRay = Dot(-refVec, plane.normal);
 
-				auto ooo = Dot(plane.normal, hitPos) - plane.offset;
-				auto t = (ooo) / hitRay;
+				auto dot = Dot(plane.normal, hitPos) - plane.offset;
+				auto t = (dot) / hitRay;
 
 				auto c = hitPos + refVec * t;
-
-
-				//auto mag = plane.offset - hitPos.y / refVec.y;
-
-				//auto clossPos = refVec * mag + hitPos;
 
 //--------------------------------------------------------------------------
 				// そしてその法線ベクトルと「逆」ライトベクトルとの
@@ -129,7 +124,7 @@ void RayTracing(const Position3& eye,const Sphere& sphere) {
 				if (hitRay > 0)
 				{
 					auto color1 = GetCheckerColorFromPos(c);
-					DrawPixel(x, y, color1.GetColor());
+					DrawPixel(x, y, color1.GetColor()/* + col.GetColor()*/);
 				}
 				else
 				{
@@ -165,10 +160,33 @@ int main() {
 	// スクリーンはZ=0の位置
 	// 第一引数が視点座標(0, 0, 300)
 	// 第二引数球体の情報(半径100の中心(0, 0, -100))
-	DrawBox(0, 0, 640, 480, GetColor(0,128,128),true);
-	auto sp = Sphere(100, Position3(0, 0, -100));
+	DrawBox(0, 0, 640, 480, GetColor(0, 128, 128), true);
+	Position3 pos = { 0, -10, -100 };
+	auto sp = Sphere(100, pos);
 	RayTracing(Vector3(0, 0, 300), sp);
 
 	WaitKey();
+	while(!CheckHitKey(KEY_INPUT_ESCAPE))
+	{
+		ClsDrawScreen();
+		if (CheckHitKey(KEY_INPUT_W))
+		{
+			pos.z += 5;
+		}
+		if (CheckHitKey(KEY_INPUT_S))
+		{
+			pos.z -= 5;
+		}
+		if (CheckHitKey(KEY_INPUT_D))
+		{
+			pos.x += 5;
+		}
+		if (CheckHitKey(KEY_INPUT_A))
+		{
+			pos.x -= 5;
+		}
+		DrawBox(0, 0, 640, 480, GetColor(0, 128, 128), true);
+		RayTracing(Vector3(0, 0, 300), Sphere(100, pos));
+	}
 	DxLib_End();
 }
