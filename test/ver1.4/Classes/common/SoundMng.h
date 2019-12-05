@@ -4,6 +4,7 @@
 #include "ck/ck.h"
 #include "ck/config.h"
 #include "ck/sound.h"
+#include "jni.h"
 
 // »³ÝÄÞ‚ÌŽí—Þ
 enum class SOUND_TYPE
