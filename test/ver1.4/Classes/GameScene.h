@@ -21,17 +21,17 @@ public:
 	~GameScene();
 	static cocos2d::Scene* createScene();
 	
-	virtual bool init();    // 初期化関数
+	// 初期化関数
+	virtual bool init(); 
 
 	// a selector callback
 	void menuCloseCallback(cocos2d::Ref* pSender);
 private:
-	void update(float dt);	// 情報更新
+	// 情報更新
+	void update(float dt);
 
-	input* m_input;			// ｷｰの入力情報
-
-	std::shared_ptr<efk::EffectManager> m_effMng = nullptr;
-	efk::Effect* m_eff;
+	// ｷｰの入力情報
+	input* m_input;	
 
 	void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags);
 

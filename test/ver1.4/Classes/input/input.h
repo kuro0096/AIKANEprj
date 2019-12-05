@@ -46,10 +46,12 @@ struct input : public cocos2d::Node
 	input();
 	~input();
 	virtual void Init(Node* node) = 0;
-	void PressingUpdate();			// ｷｰの情報を更新
+	// ｷｰの情報を更新
+	void PressingUpdate();
 	virtual INPUT_TYPE GetType(void) = 0;
+	// 入力の状態を返す
 	INPUT_STATE GetState(const DIR dir) {
-		return m_inputState[dir];	// 入力の状態を返す
+		return m_inputState[dir];
 	}
 protected:
 	std::map<DIR,INPUT_STATE> m_inputState;			// 入力状態

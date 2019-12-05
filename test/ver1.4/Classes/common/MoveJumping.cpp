@@ -2,7 +2,7 @@
 #include "Gravity.h"
 #include "Unit/Player.h"
 
-// ¼Þ¬ÝÌßˆ——pŠÖ”
+// ¼Þ¬ÝÌß’†ˆ——pŠÖ”
 bool MoveJumping::operator()(cocos2d::Sprite & sprite, ActData & data)
 {
 	if (((Player&)sprite).getJumpCnt() == 30)
@@ -10,7 +10,10 @@ bool MoveJumping::operator()(cocos2d::Sprite & sprite, ActData & data)
 		((Player&)sprite).setActID(ACT_ID::FALL);
 		return true;
 	}
-	((Player&)sprite).setActID(ACT_ID::JUMPING);
+	if (((Player&)sprite).getJumpCnt() > 1)
+	{
+		((Player&)sprite).setActID(ACT_ID::JUMPING);
+	}
 	((Player&)sprite).setJumpCnt(((Player&)sprite).getJumpCnt()+1);
 	sprite.setPositionY(sprite.getPositionY() + 6.0f);
 	return true;
