@@ -10,6 +10,7 @@ EffekseerMng::~EffekseerMng()
 {
 }
 
+// ´Ìª¸Äî•ñ‰Šú‰»ŠÖ”
 efk::EffectEmitter* EffekseerMng::EffekseerInit(const EFF_ID id, const std::string effect, cocos2d::Vec2 pos, int scale)
 {
 	m_effMng.reset(efk::EffectManager::create(cocos2d::Director::getInstance()->getVisibleSize()));
@@ -26,6 +27,7 @@ efk::EffectEmitter* EffekseerMng::EffekseerInit(const EFF_ID id, const std::stri
 	return m_emitter[id];
 }
 
+// “o˜^‚µ‚½´Ìª¸Ä‚ğÄ¶
 bool EffekseerMng::PlayEffekseer(const EFF_ID id, cocos2d::Vec2 pos)
 {
 	if (m_emitter[id] != nullptr)

@@ -2,7 +2,7 @@
 #include "Gravity.h"
 #include "Unit/Player.h"
 
-// ｼﾞｬﾝﾌﾟ処理用関数
+// ｼﾞｬﾝﾌﾟ開始時用関数
 bool MoveJump::operator()(cocos2d::Sprite & sprite, ActData & data)
 {
 	((Player&)sprite).setActID(ACT_ID::JUMP);

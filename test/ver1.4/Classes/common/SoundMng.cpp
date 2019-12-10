@@ -1,6 +1,6 @@
 #include "SoundMng.h"
 
-SoundMng* SoundMng::s_instance = nullptr; // ±ÄÞÚ½‚Ì‰Šú‰»
+SoundMng* SoundMng::s_instance = nullptr; // ï½±ï¾„ï¾žï¾šï½½ã®åˆæœŸåŒ–
 
 SoundMng::SoundMng()
 {
@@ -12,14 +12,18 @@ SoundMng::~SoundMng()
 	m_bank->destroy();
 }
 
-// »³ÝÄÞî•ñ“o˜^—pŠÖ”
+// ï½»ï½³ï¾ï¾„ï¾žæƒ…å ±ç™»éŒ²ç”¨é–¢æ•°
 bool SoundMng::SERecord(const char* name)
 {
-	m_bank = CkBank::newBank("/test/MyGame/Resources/Sounds/soundeffects.ckb", kCkPathType_FileSystem);
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	m_bank = CkBank::newBank("Sounds/soundeffects.ckb", kCkPathType_FileSystem);
+#else
+	m_bank = CkBank::newBank("Sounds/soundeffects.ckb");
+#endif
 	return true;
 }
 
-// »³ÝÄÞ‚ðÄ¶‚·‚é‚½‚ß‚ÌŠÖ”(»³ÝÄÞ‚Ì–¼‘O,BGM‚©SE‚©)
+// ï½»ï½³ï¾ï¾„ï¾žã‚’å†ç”Ÿã™ã‚‹ãŸã‚ã®é–¢æ•°(ï½»ï½³ï¾ï¾„ï¾žã®åå‰,BGMã‹SEã‹)
 void SoundMng::SoundStreaming(const char* name, const SOUND_TYPE type)
 {
 	if (type == SOUND_TYPE::SE)
@@ -29,12 +33,16 @@ void SoundMng::SoundStreaming(const char* name, const SOUND_TYPE type)
 	}
 	if (type == SOUND_TYPE::BGM)
 	{
-		m_sound = CkSound::newStreamSound("/test/MyGame/Resources/Sounds/test.cks", kCkPathType_FileSystem);
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+		m_sound = CkSound::newStreamSound("Sounds/test.cks", kCkPathType_FileSystem);
+#else
+		m_sound = CkSound::newStreamSound("Sounds/test.cks");
+#endif
 		m_sound->play();
 	}
 }
 
-// »³ÝÄÞ‚ðŽ~‚ß‚é‚½‚ß‚ÌŠÖ”
+// ï½»ï½³ï¾ï¾„ï¾žã‚’æ­¢ã‚ã‚‹ãŸã‚ã®é–¢æ•°
 void SoundMng::StopStreaming()
 {
 	m_sound->stop();

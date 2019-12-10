@@ -38,11 +38,6 @@ bool inputTouch::touchMoved(cocos2d::Touch * touch, cocos2d::Event * event)
 		m_inputState[DIR::RIGHT] = INPUT_STATE::ON_MON;
 		m_inputState[DIR::LEFT] = INPUT_STATE::OFF_MON;
 	}
-	/*if (location.y < m_StartPoint.y - offset)
-	{
-		m_inputState[DIR::DOWN] = INPUT_STATE::ON_MON;
-		m_inputState[DIR::UP] = INPUT_STATE::OFF_MON;
-	}*/
 	if (location.y > m_StartPoint.y + offset)
 	{
 		m_inputState[DIR::UP] = INPUT_STATE::ON_MON;

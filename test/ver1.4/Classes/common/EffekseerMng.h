@@ -2,10 +2,10 @@
 #include <cocos2d.h>
 #include "Effekseer/Effekseer.h"
 
+// ´Ìª¸Ä‚ÌID
 enum class EFF_ID
 {
-	JUMP,
-	COR,
+	JUMP,	// ¼Ş¬İÌß	
 	MAX
 };
 
@@ -24,9 +24,12 @@ public:
 		}
 		return (*s_instance);
 	}
+	// ´Ìª¸Äî•ñ‰Šú‰»ŠÖ”
 	efk::EffectEmitter* EffekseerInit(const EFF_ID id,const std::string effect, cocos2d::Vec2 pos, int scale);
+	// “o˜^‚µ‚½´Ìª¸Ä‚ğÄ¶
 	bool PlayEffekseer(const EFF_ID id, cocos2d::Vec2 pos);
 	
+	// ´Ìª¸ÄÏÈ°¼Ş¬‚ÌÎß²İÀ‚ğæ“¾
 	std::shared_ptr<efk::EffectManager> GetEffMng()
 	{
 		return  m_effMng;

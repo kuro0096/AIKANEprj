@@ -19,7 +19,8 @@ struct ActData;
 
 using actFunc = std::function<bool(cocos2d::Sprite&,ActData&)>;
 
-struct ActData	// ｱｸｼｮﾝ格納用構造体
+// ｱｸｼｮﾝ格納用構造体
+struct ActData
 {
 	ACT_ID actID;	
 	std::list<ACT_ID>whiteList;		// 動作していいｱｸｼｮﾝを格納するﾘｽﾄ
@@ -38,11 +39,16 @@ public:
 	ActionMng(cocos2d::Sprite* sp);
 	~ActionMng();
 	
-	void AddAct(std::string actName,ActData& data);		// ｱｸｼｮﾝﾃﾞｰﾀの追加
-	void ActRun();										// ｱｸｼｮﾝﾃﾞｰﾀを処理する関数
-	ACT_ID GetActID() { return m_actID; };				// 実行されているｱｸｼｮﾝのIDを取得
-	void SetActID(ACT_ID actID) { m_actID = actID; }	// ｱｸｼｮﾝのIDを設定
-	DIR GetActDir() { return m_actDir; };				// 向いている方向を取得
+	// ｱｸｼｮﾝﾃﾞｰﾀの追加
+	void AddAct(std::string actName,ActData& data);	
+	// ｱｸｼｮﾝﾃﾞｰﾀを処理する関数
+	void ActRun();
+	// 実行されているｱｸｼｮﾝのIDを取得
+	ACT_ID GetActID() { return m_actID; };
+	// ｱｸｼｮﾝのIDを設定
+	void SetActID(ACT_ID actID) { m_actID = actID; }
+	// 向いている方向を取得
+	DIR GetActDir() { return m_actDir; };
 private:
 	std::map<std::string, ActData> m_actData;			// ｱｸｼｮﾝデータ
 	cocos2d::Sprite* m_sprite;							// ｱｸｼｮﾝさせるｽﾌﾟﾗｲﾄの情報

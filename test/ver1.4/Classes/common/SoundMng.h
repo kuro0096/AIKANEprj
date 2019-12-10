@@ -4,11 +4,13 @@
 #include "ck/ck.h"
 #include "ck/config.h"
 #include "ck/sound.h"
+#include "jni.h"
 
-enum class SOUND_TYPE	// »³ÝÄÞ‚ÌŽí—Þ
+// »³ÝÄÞ‚ÌŽí—Þ
+enum class SOUND_TYPE
 {
-	SE,
-	BGM
+	SE,		// »³ÝÄÞ´Ìª¸Ä
+	BGM		// ÊÞ¯¸¸Þ×³ÝÄÞÐ­°¼Þ¯¸
 };
 
 #define lpSoundMng SoundMng::GetInstance()

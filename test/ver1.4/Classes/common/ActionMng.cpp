@@ -83,7 +83,6 @@ void ActionMng::ActRun()
 		// ﾁｪｯｸﾓｼﾞｭｰﾙを確認
 		if (CheckModule(data))
 		{
-			m_actID = data.second.actID;
 			m_actDir = data.second.dir;
 			// 実行するｱｸｼｮﾝ情報が入っていたらｱｸｼｮﾝを実行
 			if(data.second.runAct != nullptr)

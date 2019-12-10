@@ -48,6 +48,21 @@ USING_NS_CC;
 
 static cocos2d::Size designResolutionSize = cocos2d::Size(1024, 576);
 
+#if CK_PLATFORM_ANDROID
+#ifdef __cplusplus
+
+extern "C" {
+#endif
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_initCricket(JNIEnv * env, jclass activity, jobject context)
+{
+	CkConfig config(env, context);
+	CkInit(&config);
+}
+#ifdef __cplusplus
+}
+#endif // __cplusplus
+#endif // CK_PLATFORM_ANDROID
+
 AppDelegate::AppDelegate()
 {
 }
@@ -93,8 +108,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
 	// »³ÝÄÞ(Cricket Audio)‚ÌXV—p
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	CkConfig config;
 	CkInit(&config);
+#endif
+
 	auto schedule = Director::getInstance()->getScheduler();
 	schedule->schedule([](float f) {
 		CkUpdate();

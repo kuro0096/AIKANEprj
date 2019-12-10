@@ -139,6 +139,7 @@ bool GameScene::init()
 	// ´Ìª¸Ä‚Ì“o˜^
 	this->addChild(lpEffekseerMng.EffekseerInit(EFF_ID::JUMP, "Jump", Vec2(300, 300), 20), 1000);
 	
+	// BGM‚ÌÄ¶
 	lpSoundMng.SoundStreaming("test", SOUND_TYPE::BGM);
 
 	this->scheduleUpdate();

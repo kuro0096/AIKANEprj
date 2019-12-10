@@ -4,5 +4,6 @@
 
 struct CheckList
 {
-	bool operator()(cocos2d::Sprite& sprite, ActData& data);	// ﾘｽﾄをﾁｪｯｸして動いていいかを確認するための関数
+	// ﾘｽﾄをﾁｪｯｸして動いていいかを確認するための関数
+	bool operator()(cocos2d::Sprite& sprite, ActData& data);
 };

@@ -44,8 +44,9 @@ bool Player::Init()
 	// ‰ŠúÀ•W
 	this->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + this->getContentSize().height + 20));
 	// •Ï”‰Šú‰»
-	m_jumpSpeed = 5.0f;
 	m_actID = ACT_ID::IDLE;
+	m_jumpSpeed = 5.0f;
+	m_reverse = false;
 
 	// ±¸¼®İŠÇ——p•Ï”‰Šú‰»
 	m_actionMng = new ActionMng(this);
@@ -57,6 +58,7 @@ bool Player::Init()
 		data.actID = ACT_ID::IDLE;
 		data.dir = DIR::NON;
 		data.blackList.emplace_back(ACT_ID::FALL);
+		data.blackList.emplace_back(ACT_ID::RUN);
 		data.blackList.emplace_back(ACT_ID::JUMP);
 		data.blackList.emplace_back(ACT_ID::JUMPING);
 		data.state = INPUT_STATE::ON;
@@ -142,18 +144,6 @@ void Player::update(float dt)
 	TRACE("-%d\n", static_cast<int>(m_actID));
 
 	// ±¸¼®İ‚Ìó‘Ô‚É‚æ‚Á‚Ä±ÆÒ°¼®İØ‚è‘Ö‚¦
-	if (m_actID == ACT_ID::RUN)
-	{
-		lpAnimMng.ActAnim(this, "player", "run", true);
-		auto reverse = m_actionMng->GetActDir() == DIR::LEFT ? true : false;
-		this->runAction(FlipX::create(reverse));
-	}
-	if (m_input->GetState(DIR::UP) == INPUT_STATE::ON_MON)
-	{
-		lpAnimMng.ActAnim(this, "player", "jump", false);
-		lpSoundMng.SoundStreaming("jump", SOUND_TYPE::SE);
-		lpEffekseerMng.PlayEffekseer(EFF_ID::JUMP, this->getPosition() - Vec2{ 0,65 });
-	}
 	if (m_actID == ACT_ID::IDLE)
 	{
 		lpAnimMng.ActAnim(this, "player", "idle", true);
@@ -161,6 +151,18 @@ void Player::update(float dt)
 	if (m_actID == ACT_ID::FALL)
 	{
 		lpAnimMng.ActAnim(this, "player", "stand", true);
+	}
+	if (m_actID == ACT_ID::RUN)
+	{
+		lpAnimMng.ActAnim(this, "player", "run", true);
+		m_reverse = m_actionMng->GetActDir() == DIR::LEFT ? true : false;
+		this->runAction(FlipX::create(m_reverse));
+	}
+	if (m_actID == ACT_ID::JUMP)
+	{
+		lpAnimMng.ActAnim(this, "player", "jump", false);
+		lpSoundMng.SoundStreaming("jump", SOUND_TYPE::SE);
+		lpEffekseerMng.PlayEffekseer(EFF_ID::JUMP, this->getPosition() - Vec2{ 0,65 });
 	}
 
 	m_input->PressingUpdate();

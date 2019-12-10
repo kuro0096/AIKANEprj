@@ -11,14 +11,21 @@ public:
 	static Player* createPlayer();	
 	Player();
 	~Player();
-	void update(float dt);								// 情報更新
-	input* getInput() { return m_input; };				// ｲﾝﾌﾟｯﾄの情報を取得
-	ACT_ID getActID() { return m_actID; };				// ｱｸｼｮﾝのIDを取得
-	void setActID(ACT_ID actID) { m_actID = actID; };	// ｱｸｼｮﾝのIDを設定
-	void setJumpCnt(int cnt) { m_jumpCnt = cnt; };		// ｼﾞｬﾝﾌﾟの時間を設定
-	int getJumpCnt() { return m_jumpCnt; };				// ｼﾞｬﾝﾌﾟの経過時間を渡す
+	// 情報更新
+	void update(float dt);
+	// ｲﾝﾌﾟｯﾄの情報を取得
+	input* getInput() { return m_input; };
+	// ｱｸｼｮﾝのIDを取得
+	ACT_ID getActID() { return m_actID; };
+	// ｱｸｼｮﾝのIDを設定
+	void setActID(ACT_ID actID) { m_actID = actID; };
+	// ｼﾞｬﾝﾌﾟの時間を設定
+	void setJumpCnt(int cnt) { m_jumpCnt = cnt; };
+	// ｼﾞｬﾝﾌﾟの経過時間を渡す
+	int getJumpCnt() { return m_jumpCnt; };	
 private:
-	bool Init();							// 変数やｱﾆﾒｰｼｮﾝの初期化
+	// 変数やｱﾆﾒｰｼｮﾝの初期化
+	bool Init();
 	
 	cocos2d::AnimationCache* m_animSave;	// ｱﾆﾒｰｼｮﾝのﾃﾞｰﾀ保存用変数
 	input* m_input;							// ｷｰの入力情報
@@ -27,6 +34,7 @@ private:
 
 	int m_jumpCnt;							// ｼﾞｬﾝﾌﾟの秒数
 	float m_jumpSpeed;						// ｼﾞｬﾝﾌﾟの移動量
+	bool m_reverse;							// 画像反転用のFlag
 
 	CREATE_FUNC(Player);
 };

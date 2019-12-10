@@ -26,6 +26,25 @@
 #define  _APP_DELEGATE_H_
 
 #include "cocos2d.h"
+#include <jni.h>
+
+#ifndef _ANDROID_JNI
+#define _ANDROID_JNI
+#ifdef __cplusplus
+
+extern "C" {
+#endif
+	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_initCricket(
+		JNIEnv * env,
+		jclass activity,
+		jobject context
+	);
+
+#ifdef __cplusplus
+}
+
+#endif // __cplusplus
+#endif // _ANDROID_JNI
 
 /**
 @brief    The cocos2d Application.

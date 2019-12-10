@@ -6,5 +6,6 @@ USING_NS_CC;
 
 struct CollisionCheck
 {
-	bool operator()(cocos2d::Sprite& sprite, ActData& data);	// “–‚½‚è”»’è—pŠÖ”
+	// “–‚½‚è”»’è—pŠÖ”
+	bool operator()(cocos2d::Sprite& sprite, ActData& data);
 };
